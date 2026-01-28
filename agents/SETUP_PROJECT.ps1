@@ -111,20 +111,20 @@ $GitHubUsername = "maxymurm"
 $GlobalAgentsPath = "$env:USERPROFILE\.config\agents"
 
 # Color functions
-function Write-Step { param([string]$Message) Write-Host "`n📋 $Message" -ForegroundColor Cyan }
-function Write-Success { param([string]$Message) Write-Host "✅ $Message" -ForegroundColor Green }
-function Write-Error { param([string]$Message) Write-Host "❌ $Message" -ForegroundColor Red }
-function Write-Warning { param([string]$Message) Write-Host "⚠️  $Message" -ForegroundColor Yellow }
-function Write-Info { param([string]$Message) Write-Host "ℹ️  $Message" -ForegroundColor Gray }
+function Write-Step { param([string]$Message) Write-Host "`nðŸ“‹ $Message" -ForegroundColor Cyan }
+function Write-Success { param([string]$Message) Write-Host "âœ… $Message" -ForegroundColor Green }
+function Write-Error { param([string]$Message) Write-Host "âŒ $Message" -ForegroundColor Red }
+function Write-Warning { param([string]$Message) Write-Host "âš ï¸  $Message" -ForegroundColor Yellow }
+function Write-Info { param([string]$Message) Write-Host "â„¹ï¸  $Message" -ForegroundColor Gray }
 
 # Banner
 function Show-Banner {
-    Write-Host "`n╔═══════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-    Write-Host "║         🚀 PROJECT AUTOMATION SETUP SCRIPT 🚀                ║" -ForegroundColor Cyan
-    Write-Host "║                                                               ║" -ForegroundColor Cyan
-    Write-Host "║  Executes all 23 steps from PROJECT_INITIALIZATION.md        ║" -ForegroundColor Cyan
-    Write-Host "║  Complete project setup in 5-10 minutes!                     ║" -ForegroundColor Cyan
-    Write-Host "╚═══════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+    Write-Host "`nâ•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—" -ForegroundColor Cyan
+    Write-Host "â•‘         ðŸš€ PROJECT AUTOMATION SETUP SCRIPT ðŸš€                â•‘" -ForegroundColor Cyan
+    Write-Host "â•‘                                                               â•‘" -ForegroundColor Cyan
+    Write-Host "â•‘  Executes all 23 steps from PROJECT_INITIALIZATION.md        â•‘" -ForegroundColor Cyan
+    Write-Host "â•‘  Complete project setup in 5-10 minutes!                     â•‘" -ForegroundColor Cyan
+    Write-Host "â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•" -ForegroundColor Cyan
     Write-Host ""
 }
 
@@ -356,7 +356,7 @@ function New-ProjectFiles {
 - **Framework:** [Specify framework]
 
 ## Status
-🚧 **In Development** - Phase 1 Setup
+ðŸš§ **In Development** - Phase 1 Setup
 
 ## Documentation
 - [Project Documentation](docs/PROJECT_DOCUMENTATION.md)
@@ -564,6 +564,9 @@ function New-GitHubTemplates {
     
     New-Item -Path ".github\ISSUE_TEMPLATE" -ItemType Directory -Force | Out-Null
     
+    # Note: Templates temporarily simplified due to PowerShell YAML parsing issues
+    # Full templates can be added manually later
+    
     # Bug report template
     $bugTemplate = @'
 ---
@@ -574,33 +577,33 @@ labels: bug
 assignees: maxymurm
 ---
 
-## 🐛 Bug Description
+## ðŸ› Bug Description
 [Clear description of the bug]
 
-## 📋 Steps to Reproduce
+## ðŸ“‹ Steps to Reproduce
 1. Go to '...'
 2. Click on '...'
 3. Scroll down to '...'
 4. See error
 
-## ✅ Expected Behavior
+## âœ… Expected Behavior
 [What should happen]
 
-## ❌ Actual Behavior
+## âŒ Actual Behavior
 [What actually happens]
 
-## 🖼️ Screenshots
+## ðŸ–¼ï¸ Screenshots
 [If applicable, add screenshots]
 
-## 🔧 Environment
+## ðŸ”§ Environment
 - **OS:** [Windows / macOS / Linux]
 - **Browser:** [Chrome / Firefox / Safari / etc.]
 - **Version:** [Application version if applicable]
 
-## 📝 Additional Context
+## ðŸ“ Additional Context
 [Any other context about the problem]
 
-## 💡 Possible Solution
+## ðŸ’¡ Possible Solution
 [If you have ideas about what might be causing this]
 '@
     Set-Content ".github\ISSUE_TEMPLATE\bug_report.md" -Value $bugTemplate -Encoding UTF8
@@ -615,37 +618,37 @@ labels: enhancement
 assignees: maxymurm
 ---
 
-## 🎯 Feature Description
+## ðŸŽ¯ Feature Description
 [Clear description of the feature]
 
-## 🔍 Problem Statement
+## ðŸ” Problem Statement
 [What problem does this solve? Why is this needed?]
 
-## 💡 Proposed Solution
+## ðŸ’¡ Proposed Solution
 [How should this feature work?]
 
-## 🔄 Alternatives Considered
+## ðŸ”„ Alternatives Considered
 [What other approaches did you consider?]
 
-## ✅ Acceptance Criteria
+## âœ… Acceptance Criteria
 - [ ] Criterion 1
 - [ ] Criterion 2
 - [ ] Criterion 3
 - [ ] Criterion 4
 
-## ⏱️ Estimate
+## â±ï¸ Estimate
 [Estimated development time: X hours]
 
-## 🔗 Dependencies
+## ðŸ”— Dependencies
 [Does this depend on other issues? List them here]
 
-## 📝 Additional Context
+## ðŸ“ Additional Context
 [Mockups, examples, references, etc.]
 
-## 🎨 UI/UX Considerations
+## ðŸŽ¨ UI/UX Considerations
 [If applicable, describe expected user experience]
 
-## 🧪 Testing Requirements
+## ðŸ§ª Testing Requirements
 [What tests should be written?]
 '@
     Set-Content ".github\ISSUE_TEMPLATE\feature_request.md" -Value $featureTemplate -Encoding UTF8
@@ -654,41 +657,41 @@ assignees: maxymurm
     $prTemplate = @'
 # Pull Request
 
-## 📝 Description
+## ðŸ“ Description
 [Describe what this PR does]
 
-## 🔗 Related Issue
+## ðŸ”— Related Issue
 Closes #[issue number]
 
-## 🔄 Type of Change
-- [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
-- [ ] ✨ New feature (non-breaking change which adds functionality)
-- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] 📝 Documentation update
-- [ ] ♻️ Code refactoring
-- [ ] ⚡ Performance improvement
-- [ ] 🧪 Test addition/update
+## ðŸ”„ Type of Change
+- [ ] ðŸ› Bug fix (non-breaking change which fixes an issue)
+- [ ] âœ¨ New feature (non-breaking change which adds functionality)
+- [ ] ðŸ’¥ Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] ðŸ“ Documentation update
+- [ ] â™»ï¸ Code refactoring
+- [ ] âš¡ Performance improvement
+- [ ] ðŸ§ª Test addition/update
 
-## ✅ Testing Checklist
+## âœ… Testing Checklist
 - [ ] Manual testing completed
 - [ ] Unit tests added/updated
 - [ ] All tests passing
 - [ ] No console errors/warnings
 
-## 📋 Code Quality Checklist
+## ðŸ“‹ Code Quality Checklist
 - [ ] Code follows project style guidelines
 - [ ] Self-review completed
 - [ ] Comments added for complex logic
 - [ ] Documentation updated (if needed)
 - [ ] No unnecessary dependencies added
 
-## 🖼️ Screenshots (if applicable)
+## ðŸ–¼ï¸ Screenshots (if applicable)
 [Add screenshots of UI changes]
 
-## 📝 Additional Notes
+## ðŸ“ Additional Notes
 [Any additional information for reviewers]
 
-## ✅ Reviewer Checklist
+## âœ… Reviewer Checklist
 - [ ] Code review completed
 - [ ] Tests reviewed and passing
 - [ ] Documentation reviewed
@@ -864,11 +867,11 @@ Automated by SETUP_PROJECT.ps1
 
 # Summary
 function Show-Summary {
-    Write-Host "`n╔═══════════════════════════════════════════════════════════════╗" -ForegroundColor Green
-    Write-Host "║                 ✅ SETUP COMPLETE! ✅                        ║" -ForegroundColor Green
-    Write-Host "╚═══════════════════════════════════════════════════════════════╝" -ForegroundColor Green
+    Write-Host "`nâ•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—" -ForegroundColor Green
+    Write-Host "â•‘                 âœ… SETUP COMPLETE! âœ…                        â•‘" -ForegroundColor Green
+    Write-Host "â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•" -ForegroundColor Green
     
-    Write-Host "`n📊 Project Summary:" -ForegroundColor Cyan
+    Write-Host "`nðŸ“Š Project Summary:" -ForegroundColor Cyan
     Write-Host "   Name: $ProjectName" -ForegroundColor White
     Write-Host "   Tech Stack: $TechStack" -ForegroundColor White
     Write-Host "   Database: $Database" -ForegroundColor White
@@ -880,24 +883,24 @@ function Show-Summary {
         Write-Host "   Repository: https://github.com/$GitHubUsername/$ProjectName" -ForegroundColor White
     }
     
-    Write-Host "`n✅ What was created:" -ForegroundColor Cyan
-    Write-Host "   ✓ Git repository (main and develop branches)" -ForegroundColor Green
-    Write-Host "   ✓ GitHub repository ($($script:RepoVisibility))" -ForegroundColor Green
-    Write-Host "   ✓ Documentation structure (docs/)" -ForegroundColor Green
-    Write-Host "   ✓ Memory system (.github/instructions/)" -ForegroundColor Green
-    Write-Host "   ✓ GitHub templates (issues and PRs)" -ForegroundColor Green
-    Write-Host "   ✓ Project milestones ($Phases phases)" -ForegroundColor Green
-    Write-Host "   ✓ GitHub project board" -ForegroundColor Green
-    Write-Host "   ✓ Standard labels" -ForegroundColor Green
-    Write-Host "   ✓ README.md and LICENSE" -ForegroundColor Green
+    Write-Host "`nâœ… What was created:" -ForegroundColor Cyan
+    Write-Host "   âœ“ Git repository (main and develop branches)" -ForegroundColor Green
+    Write-Host "   âœ“ GitHub repository ($($script:RepoVisibility))" -ForegroundColor Green
+    Write-Host "   âœ“ Documentation structure (docs/)" -ForegroundColor Green
+    Write-Host "   âœ“ Memory system (.github/instructions/)" -ForegroundColor Green
+    Write-Host "   âœ“ GitHub templates (issues and PRs)" -ForegroundColor Green
+    Write-Host "   âœ“ Project milestones ($Phases phases)" -ForegroundColor Green
+    Write-Host "   âœ“ GitHub project board" -ForegroundColor Green
+    Write-Host "   âœ“ Standard labels" -ForegroundColor Green
+    Write-Host "   âœ“ README.md and LICENSE" -ForegroundColor Green
     
-    Write-Host "`n🚀 Next Steps:" -ForegroundColor Cyan
+    Write-Host "`nðŸš€ Next Steps:" -ForegroundColor Cyan
     Write-Host "   1. Review docs/PROJECT_DOCUMENTATION.md" -ForegroundColor White
     Write-Host "   2. Check GitHub project board: gh browse" -ForegroundColor White
     Write-Host "   3. Start Phase 1 development!" -ForegroundColor White
     Write-Host "   4. AI agent will use .github/instructions/memory.instruction.md for context" -ForegroundColor White
     
-    Write-Host "`n💡 Tip: Say to agent 'Continue with Phase 1' to start development!" -ForegroundColor Yellow
+    Write-Host "`nTip: Say to agent 'Continue with Phase 1' to start development!" -ForegroundColor Yellow
     Write-Host ""
 }
 
@@ -905,7 +908,7 @@ function Show-Summary {
 try {
     Show-Banner
     
-    Write-Host "📋 Configuration:" -ForegroundColor Cyan
+    Write-Host "ðŸ“‹ Configuration:" -ForegroundColor Cyan
     Write-Host "   Project Name: $ProjectName" -ForegroundColor White
     Write-Host "   Tech Stack: $TechStack" -ForegroundColor White
     Write-Host "   Database: $Database" -ForegroundColor White

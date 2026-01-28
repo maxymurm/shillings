@@ -240,8 +240,19 @@ ACTION REQUIRED:
 1. Go to: [board URL]
 2. Click "..." → Settings → Workflows
 3. Enable "Auto-add to project"
-4. Filter: "Label is any of: *" (all labels)
-5. Save
+4. Repository: Select [repo-name]
+5. Filter: "is:issue is:pr" (or just "is:issue")
+6. Save
+
+⚠️ IMPORTANT: Auto-add workflow only affects FUTURE issues.
+For existing issues, manually trigger:
+
+```powershell
+# Add existing issues to board
+for ($i=1; $i -le [last-issue-number]; $i++) {
+    gh project item-add [project-number] --owner [owner] --url "https://github.com/[owner]/[repo]/issues/$i"
+}
+```
 
 Once complete, say "Continue" and I'll proceed with issue creation.
 ```

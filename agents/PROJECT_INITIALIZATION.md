@@ -839,14 +839,39 @@ gh label create "backend" --description "Backend related" --color "C2E0C6"
 
 ---
 
-### Issue #21: Add Setup Issues to Project Board
+### Issue #21: Enable Auto-Add Workflow & Sync Existing Issues
 **Labels:** `setup`, `phase-6`, `github`  
-**Estimate:** 10 minutes
+**Estimate:** 5 minutes
 
 **Acceptance Criteria:**
-- [ ] All setup issues (Issues #1-21) added to project board
-- [ ] Setup issues moved to "Done" column (they're already complete!)
-- [ ] Setup milestone created and linked
+- [ ] Auto-add workflow enabled on project board
+- [ ] All existing setup issues added to project board
+- [ ] Workflow tested (future issues auto-add)
+
+**Manual Steps:**
+1. Go to project board
+2. Click "..." → Settings → Workflows
+3. Enable "Auto-add to project"
+4. Repository: Select your repository
+5. Filter: `is:issue is:pr`
+6. Save
+
+**⚠️ CRITICAL: Auto-add only affects FUTURE issues!**
+
+Manually add existing issues:
+
+```powershell
+# Get issue count
+$issueCount = (gh issue list --state all --json number | ConvertFrom-Json).Count
+$projectNumber = 4  # Your project number
+
+# Add all existing issues
+for ($i=1; $i -le $issueCount; $i++) {
+    Write-Host "Adding issue #$i..."
+    gh project item-add $projectNumber --owner maxymurm --url "https://github.com/maxymurm/$projectName/issues/$i"
+    Start-Sleep -Milliseconds 200
+}
+```
 
 **Commands:**
 ```powershell
