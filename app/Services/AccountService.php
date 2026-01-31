@@ -100,6 +100,43 @@ class AccountService
     }
 
     /**
+     * Get balance for a specific period.
+     *
+     * @param  Account  $account  The account
+     * @param  Carbon  $startDate  Start of period
+     * @param  Carbon  $endDate  End of period
+     * @return float  The balance change during the period
+     */
+    public function getBalanceForPeriod(Account $account, Carbon $startDate, Carbon $endDate): float
+    {
+        $splits = Split::query()
+            ->where('account_id', $account->id)
+            ->whereHas('transaction', function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('transaction_date', [$startDate, $endDate])
+                    ->where('is_posted', true);
+            })
+            ->get();
+
+        $result = $this->calculateBalanceFromSplits($splits, $account);
+
+        return $result['decimal'];
+    }
+
+    /**
+     * Get total balance including all child accounts.
+     *
+     * @param  Account  $account  The parent account
+     * @param  Carbon|string|null  $date  As of date
+     * @return float  Total balance including children
+     */
+    public function getBalanceWithChildren(Account $account, Carbon|string|null $date = null): float
+    {
+        $result = $this->getChildrenBalances($account, $date);
+
+        return $result['decimal'];
+    }
+
+    /**
      * Get running balance for account register display.
      *
      * @param  Account  $account  The account

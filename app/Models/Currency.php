@@ -38,7 +38,7 @@ class Currency extends Model
     /**
      * Companies that use this currency as default.
      */
-    public function companies(): HasMany
+    public function companiesUsingAsDefault(): HasMany
     {
         return $this->hasMany(Company::class, 'default_currency_id');
     }

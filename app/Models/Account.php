@@ -143,6 +143,28 @@ class Account extends Model
     }
 
     /**
+     * Calculate the depth of this account in the hierarchy.
+     *
+     * @param  string|null  $parentId  Optional parent ID (for calculating before save)
+     */
+    public function calculateDepth(?string $parentId = null): int
+    {
+        $targetParentId = $parentId ?? $this->parent_id;
+
+        if (! $targetParentId) {
+            return 0;
+        }
+
+        $parent = static::find($targetParentId);
+
+        if (! $parent) {
+            return 0;
+        }
+
+        return ($parent->depth ?? 0) + 1;
+    }
+
+    /**
      * Update the path and level based on parent.
      */
     public function updatePathAndLevel(): void
