@@ -1,234 +1,310 @@
-# [PROJECT NAME] - Development Documentation
+# Shillings - Development Documentation
 
-**Last Updated:** [DATE TIME]  
-**Current Phase:** [Phase N: Phase Name]  
-**Status:** 🟢 Active Development | 🟡 On Hold | 🔴 Blocked | ✅ Complete
+**Last Updated:** January 30, 2026 17:30  
+**Current Phase:** Phase 1: Foundation & Core Accounting  
+**Status:** 🟢 Active Development
 
 ---
 
 ## 📊 Project Overview
 
 ### Description
-[Brief 2-3 sentence description of what this project does and who it's for]
+Shillings is a modern, offline-first, multi-platform accounting application that combines the accounting rigor of GnuCash (double-entry, splits, precision arithmetic) with the modern UX of Akaunting (web-based, intuitive), plus industry-leading offline capabilities for both web and mobile platforms.
 
 ### Technology Stack
-- **Backend:** [e.g., Laravel 11 + PHP 8.3]
-- **Database:** [e.g., PostgreSQL 15]
-- **Frontend:** [e.g., Vue.js 3 + Tailwind CSS]
-- **Mobile:** [e.g., Kotlin (Android), Swift (iOS)]
-- **Deployment:** [e.g., Laravel Cloud, AWS, etc.]
-- **CI/CD:** [e.g., GitHub Actions]
-- **Other:** [Any other relevant technologies]
+- **Backend:** Laravel 12 + PHP 8.3
+- **Database:** PostgreSQL 16
+- **Admin Panel:** Filament 4.3
+- **Frontend:** Livewire 3 + Tailwind CSS 4
+- **Mobile:** Compose Multiplatform (iOS/Android)
+- **Offline Web:** IndexedDB + Service Workers (PWA)
+- **API:** REST (Laravel Sanctum) + GraphQL (future)
+- **Deployment:** Cloud-hosted (Laravel Forge/Vapor)
+- **CI/CD:** GitHub Actions
+
+### Key Features
+- ✅ Pure double-entry bookkeeping (GnuCash model)
+- ✅ Split-based transactions with precision arithmetic
+- ✅ Multi-currency with historical exchange rates
+- ✅ Multi-company support
+- ✅ Hierarchical chart of accounts
+- ⏳ Offline-first mobile apps (Compose Multiplatform)
+- ⏳ Offline web via PWA
+- ⏳ Cross-device sync with conflict resolution
+- ⏳ No sign-in required when offline
 
 ### Repository
-- **GitHub:** https://github.com/[username]/[repo-name]
-- **Project Board:** https://github.com/users/[username]/projects/[number]
-- **Production:** [URL if deployed]
-- **Staging:** [URL if available]
+- **GitHub:** https://github.com/maxymurm/shillings
+- **Project Board:** https://github.com/users/maxymurm/projects/[NUMBER]
+- **Production:** [TBD]
+- **Staging:** [TBD]
 
 ### Team
 - **Developer:** Maxwell Murunga (@maxymurm)
-- **Client:** [Client Name if applicable]
-- **Stakeholders:** [List if applicable]
+- **Company:** Advent Digital
 
 ---
 
 ## 🎯 Phase Breakdown
 
-### Phase 1: [Phase Name] [✅ COMPLETE | 🔄 IN PROGRESS | ⏳ UPCOMING]
-**Timeline:** [Start Date] - [End Date]  
-**Status:** [Status with % if in progress]
+### Phase 1: Foundation & Core Accounting [🔄 IN PROGRESS]
+**Timeline:** Weeks 1-10 (~8-10 weeks)  
+**Status:** 10% - Planning Complete
 
-**Tasks Completed:**
-- ✅ 1.1: [Task name] ([Xh])
-- ✅ 1.2: [Task name] ([Xh])
-- ✅ 1.3: [Task name] ([Xh])
+**Milestones:**
+| ID | Milestone | Status | Issues |
+|----|-----------|--------|--------|
+| 1.1 | Project Setup | ⏳ Ready | 7 issues |
+| 1.2 | Database Schema | ⏳ Ready | 13 issues |
+| 1.3 | Core Models & Services | ⏳ Ready | 10 issues |
+| 1.4 | Authentication & Authorization | ⏳ Ready | 8 issues |
+| 1.5 | Basic API Endpoints | ⏳ Ready | 7 issues |
+| 1.6 | Double-Entry Engine | ⏳ Ready | 9 issues |
 
-**Tasks Pending:**
-- [ ] 1.4: [Task name] ([Xh]) - Issue #[N]
-- [ ] 1.5: [Task name] ([Xh]) - Issue #[N]
-
-**Deliverables:**
-- [List of deliverables for this phase]
-- [E.g., Database schema documentation]
-- [E.g., Migration files created]
-
-**Notes:**
-[Any important notes about this phase]
-
----
-
-### Phase 2: [Phase Name] [Status]
-**Timeline:** [Start Date] - [End Date]  
-**Status:** [Status with %]
-
-**Tasks Completed:**
-- ✅ 2.1: [Task name] ([Xh])
-
-**Tasks Pending:**
-- [ ] 2.2: [Task name] ([Xh]) - Issue #[N]
-
-**Deliverables:**
-- [List deliverables]
+**Key Deliverables:**
+- [ ] Working database with all core tables
+- [ ] Eloquent models with relationships
+- [ ] Double-entry accounting engine with precision math
+- [ ] Authentication system with RBAC
+- [ ] Basic REST API
+- [ ] Multi-company support
+- [ ] Test suite foundation
 
 ---
 
-### Phase 3: [Phase Name] [Status]
-[Repeat structure]
+### Phase 2: Web Application (Filament Admin) [⏳ UPCOMING]
+**Timeline:** Weeks 11-18 (~6-8 weeks)  
+**Status:** 0% - Not Started
+
+**Milestones:**
+| ID | Milestone | Status | Issues |
+|----|-----------|--------|--------|
+| 2.1 | Filament Setup | ⏳ Planned | 4 issues |
+| 2.2 | Account Management | ⏳ Planned | 4 issues |
+| 2.3 | Transaction Management | ⏳ Planned | 6 issues |
+| 2.4 | Reports | ⏳ Planned | 6 issues |
+| 2.5 | Settings & Configuration | ⏳ Planned | 6 issues |
+
+**Key Deliverables:**
+- [ ] Complete Filament admin panel
+- [ ] Account management UI with tree view
+- [ ] Transaction entry with splits
+- [ ] Core financial reports (BS, P&L, CF)
+- [ ] Company and user settings
 
 ---
 
-[Add more phases as needed]
+### Phase 3: Mobile Foundation (Compose Multiplatform) [⏳ UPCOMING]
+**Timeline:** Weeks 19-26 (~6-8 weeks)  
+**Status:** 0% - Not Started
+
+**Key Deliverables:**
+- [ ] iOS app (TestFlight ready)
+- [ ] Android app (Play Store ready)
+- [ ] Core accounting features on mobile
+- [ ] Biometric authentication
+- [ ] Company switching
+
+---
+
+### Phase 4: Offline & Sync Engine [⏳ UPCOMING]
+**Timeline:** Weeks 27-36 (~8-10 weeks)  
+**Status:** 0% - Not Started
+
+**Key Deliverables:**
+- [ ] Full offline mode (web and mobile)
+- [ ] Automatic sync when online
+- [ ] Conflict resolution
+- [ ] No sign-in when offline (cached auth)
+- [ ] PWA capabilities
+
+---
+
+### Phase 5: Business Features [⏳ UPCOMING]
+**Timeline:** Weeks 37-44 (~6-8 weeks)  
+**Status:** 0% - Not Started
+
+**Key Deliverables:**
+- [ ] Customer/vendor management
+- [ ] Professional invoicing
+- [ ] A/R and A/P tracking
+- [ ] Aging reports
+- [ ] Payment processing
+
+---
+
+### Phase 6: Advanced Features [⏳ UPCOMING]
+**Timeline:** Weeks 45-52 (~6-8 weeks)  
+**Status:** 0% - Not Started
+
+**Key Deliverables:**
+- [ ] Budget management
+- [ ] Bank reconciliation
+- [ ] Investment portfolio tracking
+- [ ] Scheduled/recurring transactions
+
+---
+
+### Phase 7: Automation & AI [⏳ FUTURE]
+**Timeline:** Weeks 53-58 (~4-6 weeks)  
+**Status:** 0% - Not Started
+
+**Key Deliverables:**
+- [ ] Smart transaction categorization
+- [ ] Receipt OCR scanning
+- [ ] Automated bank feeds (Plaid)
+
+---
+
+### Phase 8: Polish & Launch [⏳ FUTURE]
+**Timeline:** Weeks 59-64 (~4-6 weeks)  
+**Status:** 0% - Not Started
+
+**Key Deliverables:**
+- [ ] Production-ready application
+- [ ] Complete documentation
+- [ ] iOS App Store listing
+- [ ] Google Play Store listing
+- [ ] Web application launched
 
 ---
 
 ## 📝 Change Log
 
-### [YYYY-MM-DD]
+### 2026-01-30
 
-#### [HH:MM] - [Feature/Fix Name] (Issue #[N])
-**Type:** Feature | Bug Fix | Documentation | Refactor | Test  
-**Branch:** [branch-name]  
-**Commit:** `[commit message]`
+#### 17:30 - Project Planning Complete
+**Type:** Documentation  
+**Branch:** main
 
 **Changes:**
-- [Bullet point of what changed]
-- [Another change]
-- [More details]
+- Created comprehensive project documentation
+- Analyzed Akaunting and GnuCash for feature porting
+- Designed offline-first sync architecture
+- Defined 8 phases with detailed milestones
+- Created 80+ GitHub issues for Phase 1-2
+- Built issue automation script (create_issues.ps1)
 
-**Files Modified:**
-- `[file path]` (new file | modified | deleted, X lines)
-- `[another file]`
-
-**Testing:**
-- Manual testing: ✅ Pass | ❌ Fail | ⏳ Pending
-- Unit tests: ✅ Pass | ❌ Fail | ⏳ Pending
-- Integration tests: ✅ Pass | ❌ Fail | ⏳ Pending
+**Files Created:**
+- `docs/planning/AKAUNTING_ANALYSIS.md`
+- `docs/planning/GNUCASH_ANALYSIS.md`
+- `docs/planning/FEATURE_COMPARISON.md`
+- `docs/planning/PHASES_AND_MILESTONES.md`
+- `docs/planning/ISSUES_BACKLOG.md`
+- `docs/architecture/OFFLINE_FIRST_ARCHITECTURE.md`
+- `agents/create_issues.ps1`
 
 **Notes:**
-[Any additional context]
-
----
-
-#### [HH:MM] - [Another Change] (Issue #[N])
-[Repeat structure]
-
----
-
-### [Previous Date]
-
-#### [HH:MM] - [Change]
-[Continue with previous changes]
+Planning phase complete. Ready to begin development with Phase 1: Foundation & Core Accounting.
 
 ---
 
 ## 🏗️ Architecture Decisions
 
 ### Database Design
-- **ORM:** [e.g., Eloquent, Prisma, TypeORM]
-- **Relationships:** [How relationships are structured]
-- **Migrations:** [Migration strategy]
-- **Seeding:** [Seeding approach]
-- **Indexes:** [Indexing strategy]
+- **ORM:** Eloquent (Laravel 12)
+- **Primary Keys:** UUIDs (offline-first compatibility)
+- **Multi-tenancy:** company_id scoping on all entities
+- **Soft Deletes:** All core models (audit trail)
+- **Version Tracking:** sync_version for conflict resolution
+- **Migrations:** Sequential Laravel migrations
+
+### Accounting Model (GnuCash-style)
+```
+Account (tree structure with parent_id)
+  └── Split (links account to transaction portion)
+       └── Transaction (groups related splits)
+```
+- **Precision Math:** numerator/denominator fractions (not floating point)
+- **Double-Entry Enforcement:** All splits in a transaction MUST sum to zero
+- **Account Types:** ASSET, LIABILITY, INCOME, EXPENSE, EQUITY
+- **Debit/Credit:** Explicit action field on splits
 
 ### API Design
-- **Style:** [RESTful, GraphQL, etc.]
-- **Authentication:** [JWT, OAuth, Session, etc.]
-- **Versioning:** [How API is versioned]
-- **Response Format:** [JSON structure]
-- **Error Handling:** [How errors are handled]
+- **Style:** RESTful with resource-based endpoints
+- **Authentication:** Laravel Sanctum (token-based)
+- **Versioning:** URI-based (/api/v1/...)
+- **Response Format:** JSON with standard envelope
 
-**Example Response:**
+**Standard Response:**
 ```json
 {
   "success": true,
   "data": {},
   "message": "Success message",
-  "errors": []
+  "meta": { "pagination": {} }
 }
 ```
 
-### Code Organization
-- **Controllers:** [How controllers are structured]
-- **Services:** [Business logic organization]
-- **Repositories:** [Data access layer]
-- **Validation:** [Validation approach]
-- **Middleware:** [Middleware usage]
-
-### Security
-- **Authentication:** [Method used]
-- **Authorization:** [RBAC, permissions, etc.]
-- **Password Hashing:** [Algorithm]
-- **CSRF Protection:** [Enabled/method]
-- **API Rate Limiting:** [Limits set]
-
-### Performance
-- **Caching:** [Strategy and tools]
-- **Database Optimization:** [Indexing, query optimization]
-- **Asset Optimization:** [Minification, CDN, etc.]
-- **Background Jobs:** [Queue system]
+### Sync Architecture
+- **Strategy:** Bidirectional with version vectors
+- **Offline Storage:** IndexedDB (web), Room/SQLDelight (mobile)
+- **Conflict Resolution:** Last-Writer-Wins with smart merge
+- **Queue:** sync_operations table for pending changes
+- **Auth:** Cached encrypted credentials (30-day expiry)
 
 ---
 
 ## 🔧 Setup Instructions
 
 ### Prerequisites
-- [Runtime version - e.g., PHP 8.3+]
-- [Package manager - e.g., Composer 2.x]
-- [Database - e.g., PostgreSQL 15+]
-- [Node.js version if applicable]
-- [Other requirements]
+- PHP 8.3+
+- Composer 2.x
+- PostgreSQL 16+
+- Node.js 20+ & npm
+- Git
 
 ### Local Development Setup
 
 1. **Clone repository:**
    ```bash
-   git clone https://github.com/[username]/[repo-name].git
-   cd [repo-name]
+   git clone https://github.com/maxymurm/shillings.git
+   cd shillings
    ```
 
 2. **Install dependencies:**
    ```bash
-   [package install command]
-   # e.g., composer install, npm install
+   composer install
+   npm install
    ```
 
 3. **Environment setup:**
    ```bash
    cp .env.example .env
-   [key generation command if applicable]
+   php artisan key:generate
    ```
 
 4. **Configure environment variables in .env:**
    ```
-   [List key environment variables]
-   DB_CONNECTION=[database type]
-   DB_DATABASE=[database name]
-   # etc.
+   DB_CONNECTION=pgsql
+   DB_HOST=127.0.0.1
+   DB_PORT=5432
+   DB_DATABASE=shillings
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
    ```
 
 5. **Database setup:**
    ```bash
-   [database creation command]
-   [migration command]
-   [seeding command if applicable]
+   php artisan migrate
+   php artisan db:seed
    ```
 
 6. **Start development server:**
    ```bash
-   [start server command]
-   [frontend dev server if separate]
+   php artisan serve
+   npm run dev
    ```
 
 7. **Access application:**
-   - Backend: http://localhost:[port]
-   - Frontend: http://localhost:[port]
-   - API: http://localhost:[port]/api
+   - Web App: http://localhost:8000
+   - Admin Panel: http://localhost:8000/admin
+   - API: http://localhost:8000/api/v1
 
 ### Running Tests
 ```bash
-[test command]
-# e.g., php artisan test, npm test
+php artisan test
+php artisan test --coverage
 ```
 
 ---
@@ -237,166 +313,135 @@
 
 ### Base URL
 ```
-[Local] http://localhost:[port]/api
-[Staging] https://staging.example.com/api
-[Production] https://api.example.com
+[Local] http://localhost:8000/api/v1
+[Production] https://api.shillings.app/v1
 ```
 
 ### Authentication
-[How to authenticate - headers, tokens, etc.]
+All API endpoints require Bearer token authentication via Laravel Sanctum.
 
-Example:
 ```
 Authorization: Bearer {token}
 ```
 
-### Endpoints
+### Core Resources (Phase 1)
+- `GET /companies` - List user's companies
+- `GET /accounts` - List accounts (supports tree view)
+- `POST /accounts` - Create account
+- `GET /transactions` - List transactions
+- `POST /transactions` - Create transaction with splits
+- `GET /splits` - List splits (filtered by account/transaction)
 
-#### [Resource Name]
-- `GET /[endpoint]` - [Description]
-- `GET /[endpoint]/{id}` - [Description]
-- `POST /[endpoint]` - [Description]
-- `PUT /[endpoint]/{id}` - [Description]
-- `DELETE /[endpoint]/{id}` - [Description]
-
-[Repeat for each resource]
-
-**Example Request:**
-```http
-POST /api/v1/users
-Content-Type: application/json
-Authorization: Bearer {token}
-
-{
-  "name": "John Doe",
-  "email": "john@example.com"
-}
-```
-
-**Example Response:**
+### Standard Response Format
 ```json
 {
   "success": true,
-  "data": {
-    "id": 1,
-    "name": "John Doe",
-    "email": "john@example.com"
-  },
-  "message": "User created successfully"
+  "data": { ... },
+  "message": "Operation successful",
+  "meta": {
+    "pagination": {
+      "current_page": 1,
+      "total": 100
+    }
+  }
 }
 ```
 
-[See full API documentation in `docs/api/README.md`]
+*Full API documentation will be generated with OpenAPI/Swagger once endpoints are built.*
 
 ---
 
 ## 🧪 Testing
 
-### Test Coverage
-- **Current Coverage:** [X]% (Target: 80%)
-- **Unit Tests:** [X] tests, [X] passed, [X] failed
-- **Feature/Integration Tests:** [X] tests, [X] passed, [X] failed
-- **E2E Tests:** [X] tests, [X] passed, [X] failed
+### Test Strategy
+- **Unit Tests:** Models, Services, Accounting Engine
+- **Feature Tests:** API Endpoints, Auth flows
+- **Browser Tests:** Filament admin (Dusk)
+- **Mobile Tests:** Compose Multiplatform tests
 
 ### Running Tests
 ```bash
 # All tests
-[test command]
-
-# Specific test suite
-[suite command]
+php artisan test
 
 # With coverage
-[coverage command]
+php artisan test --coverage
 
-# Watch mode
-[watch command]
+# Specific suite
+php artisan test --testsuite=Unit
+php artisan test --testsuite=Feature
 ```
 
 ### Test Files
-- Unit tests: `[location]`
-- Integration tests: `[location]`
-- E2E tests: `[location]`
+- Unit tests: `tests/Unit/`
+- Feature tests: `tests/Feature/`
+- Browser tests: `tests/Browser/`
 
 ---
 
 ## 🚀 Deployment
 
-### Production Deployment
+### Cloud Deployment (Laravel Forge/Vapor)
 ```bash
-[deployment commands]
+# Production deployment via Forge
+git push origin main  # Auto-deploys via webhook
 ```
 
 ### Environment Variables (Production)
-Ensure these are set in production environment:
 - `APP_ENV=production`
 - `APP_DEBUG=false`
-- `APP_URL=[production URL]`
-- [Database credentials]
-- [API keys]
-- [Other secrets]
-
-### CI/CD Pipeline
-[Description of CI/CD setup - GitHub Actions, etc.]
-
-**Workflow:**
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
+- `APP_URL=https://shillings.app`
+- Database credentials (managed by Forge)
+- API keys (managed via Forge secrets)
 
 ---
 
 ## 📋 Next Steps
 
 ### Immediate (This Week)
-1. [Task 1]
-2. [Task 2]
-3. [Task 3]
+1. Create GitHub issues using `agents/create_issues.ps1`
+2. Set up GitHub Project Board
+3. Begin Milestone 1.1: Project Setup
 
 ### Short Term (Next 2 Weeks)
-1. [Task 1]
-2. [Task 2]
+1. Complete database migrations (Milestone 1.2)
+2. Build core Eloquent models (Milestone 1.3)
+3. Set up authentication system (Milestone 1.4)
 
 ### Long Term (Next Month+)
-1. [Task 1]
-2. [Task 2]
-3. [Task 3]
+1. Complete Phase 1 (Foundation & Core Accounting)
+2. Begin Phase 2 (Filament Admin Panel)
+3. Start mobile app planning (Phase 3)
 
 ---
 
 ## 🐛 Known Issues
 
 ### Current Bugs
-- [Issue description] - Issue #[N]
-- [Another issue] - Issue #[N]
+- None yet (fresh project)
 
 ### Technical Debt
-- [ ] [Tech debt item 1]
-- [ ] [Tech debt item 2]
-- [ ] [Tech debt item 3]
+- [ ] Set up proper CI/CD pipeline
+- [ ] Configure code quality tools (PHPStan, Pint)
+- [ ] Add comprehensive test coverage
 
 ---
 
 ## 📖 Additional Documentation
 
+### Planning
+- [Feature Comparison: `docs/planning/FEATURE_COMPARISON.md`](planning/FEATURE_COMPARISON.md)
+- [Akaunting Analysis: `docs/planning/AKAUNTING_ANALYSIS.md`](planning/AKAUNTING_ANALYSIS.md)
+- [GnuCash Analysis: `docs/planning/GNUCASH_ANALYSIS.md`](planning/GNUCASH_ANALYSIS.md)
+- [Phases & Milestones: `docs/planning/PHASES_AND_MILESTONES.md`](planning/PHASES_AND_MILESTONES.md)
+- [Issues Backlog: `docs/planning/ISSUES_BACKLOG.md`](planning/ISSUES_BACKLOG.md)
+
 ### Architecture
-- [Architecture overview: `docs/architecture/README.md`]
-- [Database schema: `docs/architecture/database.md`]
-- [System design: `docs/architecture/system-design.md`]
+- [Offline-First Architecture: `docs/architecture/OFFLINE_FIRST_ARCHITECTURE.md`](architecture/OFFLINE_FIRST_ARCHITECTURE.md)
 
-### API
-- [API reference: `docs/api/README.md`]
-- [Authentication guide: `docs/api/authentication.md`]
-
-### Guides
-- [User guide: `docs/guides/user-guide.md`]
-- [Developer guide: `docs/guides/developer-guide.md`]
-- [Deployment guide: `docs/guides/deployment.md`]
-
-### Client (if applicable)
-- [Meeting notes: `docs/client/`]
-- [Proposals: `docs/client/`]
-- [Quotes/Invoices: `docs/client/`]
+### Agents
+- [Agent Memory Template: `agents/MEMORY_TEMPLATE.md`](../agents/MEMORY_TEMPLATE.md)
+- [Issue Creation Script: `agents/create_issues.ps1`](../agents/create_issues.ps1)
 
 ---
 
@@ -407,18 +452,14 @@ Ensure these are set in production environment:
 **GitHub:** @maxymurm  
 **Company:** Advent Digital
 
-**Client:** [Client name if applicable]  
-**Client Contact:** [Contact details]
-
 ---
 
 ## 📄 License
 
-[License type - e.g., MIT, Proprietary]
+MIT License
 
 ---
 
 **End of Documentation**  
-*Auto-generated and maintained by AI agents*  
-*Template version: 2.0*  
-*Last automated update: [DATE TIME]*
+*Maintained with AI agent assistance*  
+*Last updated: January 30, 2026*
