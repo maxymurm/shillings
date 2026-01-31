@@ -19,12 +19,16 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CurrencySeeder::class,
             AccountTypeSeeder::class,
+            RoleAndPermissionSeeder::class,
         ]);
 
         // Create test user for development
-        User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Assign owner role to test user
+        $user->assignRole('owner');
     }
 }
