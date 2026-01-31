@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\ValueObjects\Money;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -287,5 +288,43 @@ class Split extends Model
         $sign = $this->isDebit() ? '+' : '-';
 
         return "{$sign}{$amount}";
+    }
+
+    /**
+     * Get the value as a Money object.
+     *
+     * Returns signed value: positive for debits, negative for credits.
+     */
+    public function getValueMoney(): Money
+    {
+        $currencyCode = $this->transaction?->currency?->code ?? 'KES';
+
+        $money = Money::fromFraction(
+            $this->value_num ?? $this->amount_num,
+            $this->value_denom ?? $this->amount_denom,
+            $currencyCode
+        );
+
+        // Return signed value: positive for debit, negative for credit
+        return $this->isDebit() ? $money : $money->negate();
+    }
+
+    /**
+     * Get the amount as a Money object.
+     *
+     * Returns signed amount: positive for debits, negative for credits.
+     */
+    public function getAmountMoney(): Money
+    {
+        $currencyCode = $this->account?->currency?->code ?? 'KES';
+
+        $money = Money::fromFraction(
+            $this->amount_num,
+            $this->amount_denom,
+            $currencyCode
+        );
+
+        // Return signed amount: positive for debit, negative for credit
+        return $this->isDebit() ? $money : $money->negate();
     }
 }

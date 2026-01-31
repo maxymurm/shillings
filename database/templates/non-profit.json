@@ -1,0 +1,282 @@
+{
+  "name": "Non-Profit Organization",
+  "description": "Chart of accounts for NGOs, churches, and non-profit organizations",
+  "version": "1.0",
+  "locale": "en-KE",
+  "accounts": [
+    {
+      "code": "1000",
+      "name": "Assets",
+      "type": "ASSET",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "1100",
+          "name": "Current Assets",
+          "type": "ASSET",
+          "placeholder": true,
+          "children": [
+            { "code": "1110", "name": "Cash on Hand", "type": "ASSET" },
+            { "code": "1120", "name": "Petty Cash", "type": "ASSET" },
+            { "code": "1130", "name": "Bank Account - Operations", "type": "ASSET" },
+            { "code": "1140", "name": "Bank Account - Programs", "type": "ASSET" },
+            { "code": "1150", "name": "M-Pesa/Mobile Money", "type": "ASSET" },
+            { "code": "1160", "name": "Grants Receivable", "type": "ASSET" },
+            { "code": "1170", "name": "Pledges Receivable", "type": "ASSET" },
+            { "code": "1180", "name": "Advances to Staff", "type": "ASSET" },
+            { "code": "1190", "name": "Prepaid Expenses", "type": "ASSET" }
+          ]
+        },
+        {
+          "code": "1200",
+          "name": "Restricted Assets",
+          "type": "ASSET",
+          "placeholder": true,
+          "children": [
+            { "code": "1210", "name": "Restricted Cash - Programs", "type": "ASSET" },
+            { "code": "1220", "name": "Restricted Cash - Building Fund", "type": "ASSET" },
+            { "code": "1230", "name": "Endowment Investments", "type": "ASSET" }
+          ]
+        },
+        {
+          "code": "1300",
+          "name": "Fixed Assets",
+          "type": "ASSET",
+          "placeholder": true,
+          "children": [
+            { "code": "1310", "name": "Land", "type": "ASSET" },
+            { "code": "1320", "name": "Buildings", "type": "ASSET" },
+            { "code": "1330", "name": "Furniture & Equipment", "type": "ASSET" },
+            { "code": "1340", "name": "Vehicles", "type": "ASSET" },
+            { "code": "1350", "name": "Computer Equipment", "type": "ASSET" },
+            { "code": "1390", "name": "Accumulated Depreciation", "type": "ASSET" }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "2000",
+      "name": "Liabilities",
+      "type": "LIABILITY",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "2100",
+          "name": "Current Liabilities",
+          "type": "LIABILITY",
+          "placeholder": true,
+          "children": [
+            { "code": "2110", "name": "Accounts Payable", "type": "LIABILITY" },
+            { "code": "2120", "name": "Accrued Expenses", "type": "LIABILITY" },
+            { "code": "2130", "name": "Salaries Payable", "type": "LIABILITY" },
+            { "code": "2140", "name": "PAYE Payable", "type": "LIABILITY" },
+            { "code": "2150", "name": "NSSF Payable", "type": "LIABILITY" },
+            { "code": "2160", "name": "NHIF Payable", "type": "LIABILITY" },
+            { "code": "2170", "name": "Deferred Revenue", "type": "LIABILITY" }
+          ]
+        },
+        {
+          "code": "2200",
+          "name": "Long-term Liabilities",
+          "type": "LIABILITY",
+          "placeholder": true,
+          "children": [
+            { "code": "2210", "name": "Loans Payable", "type": "LIABILITY" },
+            { "code": "2220", "name": "Refundable Deposits", "type": "LIABILITY" }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "3000",
+      "name": "Net Assets",
+      "type": "EQUITY",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "3100",
+          "name": "Unrestricted Net Assets",
+          "type": "EQUITY",
+          "placeholder": true,
+          "children": [
+            { "code": "3110", "name": "Operating Fund", "type": "EQUITY" },
+            { "code": "3120", "name": "Board Designated", "type": "EQUITY" }
+          ]
+        },
+        {
+          "code": "3200",
+          "name": "Temporarily Restricted",
+          "type": "EQUITY",
+          "placeholder": true,
+          "children": [
+            { "code": "3210", "name": "Program Restrictions", "type": "EQUITY" },
+            { "code": "3220", "name": "Time Restrictions", "type": "EQUITY" }
+          ]
+        },
+        {
+          "code": "3300",
+          "name": "Permanently Restricted",
+          "type": "EQUITY",
+          "placeholder": true,
+          "children": [
+            { "code": "3310", "name": "Endowment Fund", "type": "EQUITY" }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "4000",
+      "name": "Revenue",
+      "type": "INCOME",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "4100",
+          "name": "Contributions",
+          "type": "INCOME",
+          "placeholder": true,
+          "children": [
+            { "code": "4110", "name": "Individual Donations", "type": "INCOME" },
+            { "code": "4120", "name": "Corporate Donations", "type": "INCOME" },
+            { "code": "4130", "name": "Foundation Grants", "type": "INCOME" },
+            { "code": "4140", "name": "Government Grants", "type": "INCOME" },
+            { "code": "4150", "name": "In-Kind Contributions", "type": "INCOME" }
+          ]
+        },
+        {
+          "code": "4200",
+          "name": "Program Revenue",
+          "type": "INCOME",
+          "placeholder": true,
+          "children": [
+            { "code": "4210", "name": "Program Fees", "type": "INCOME" },
+            { "code": "4220", "name": "Training Fees", "type": "INCOME" },
+            { "code": "4230", "name": "Publication Sales", "type": "INCOME" }
+          ]
+        },
+        {
+          "code": "4300",
+          "name": "Fundraising Revenue",
+          "type": "INCOME",
+          "placeholder": true,
+          "children": [
+            { "code": "4310", "name": "Special Events", "type": "INCOME" },
+            { "code": "4320", "name": "Online Campaigns", "type": "INCOME" },
+            { "code": "4330", "name": "Membership Fees", "type": "INCOME" }
+          ]
+        },
+        {
+          "code": "4400",
+          "name": "Other Revenue",
+          "type": "INCOME",
+          "placeholder": true,
+          "children": [
+            { "code": "4410", "name": "Interest Income", "type": "INCOME" },
+            { "code": "4420", "name": "Rental Income", "type": "INCOME" },
+            { "code": "4430", "name": "Miscellaneous Income", "type": "INCOME" }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "5000",
+      "name": "Program Expenses",
+      "type": "EXPENSE",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "5100",
+          "name": "Program 1 Expenses",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "5110", "name": "Program Staff Salaries", "type": "EXPENSE" },
+            { "code": "5120", "name": "Program Supplies", "type": "EXPENSE" },
+            { "code": "5130", "name": "Program Travel", "type": "EXPENSE" },
+            { "code": "5140", "name": "Beneficiary Support", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "5200",
+          "name": "Program 2 Expenses",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "5210", "name": "Program Staff Salaries", "type": "EXPENSE" },
+            { "code": "5220", "name": "Program Supplies", "type": "EXPENSE" },
+            { "code": "5230", "name": "Program Travel", "type": "EXPENSE" }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "6000",
+      "name": "Administrative Expenses",
+      "type": "EXPENSE",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "6100",
+          "name": "Personnel",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6110", "name": "Administrative Salaries", "type": "EXPENSE" },
+            { "code": "6120", "name": "Employer NSSF", "type": "EXPENSE" },
+            { "code": "6130", "name": "Employer NHIF", "type": "EXPENSE" },
+            { "code": "6140", "name": "Staff Development", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6200",
+          "name": "Office",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6210", "name": "Rent", "type": "EXPENSE" },
+            { "code": "6220", "name": "Utilities", "type": "EXPENSE" },
+            { "code": "6230", "name": "Office Supplies", "type": "EXPENSE" },
+            { "code": "6240", "name": "Telephone & Internet", "type": "EXPENSE" },
+            { "code": "6250", "name": "Postage", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6300",
+          "name": "Professional Services",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6310", "name": "Audit Fees", "type": "EXPENSE" },
+            { "code": "6320", "name": "Legal Fees", "type": "EXPENSE" },
+            { "code": "6330", "name": "Consulting", "type": "EXPENSE" },
+            { "code": "6340", "name": "IT Services", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6400",
+          "name": "Other Admin",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6410", "name": "Insurance", "type": "EXPENSE" },
+            { "code": "6420", "name": "Bank Charges", "type": "EXPENSE" },
+            { "code": "6430", "name": "Depreciation", "type": "EXPENSE" },
+            { "code": "6440", "name": "Miscellaneous", "type": "EXPENSE" }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "7000",
+      "name": "Fundraising Expenses",
+      "type": "EXPENSE",
+      "placeholder": true,
+      "children": [
+        { "code": "7100", "name": "Fundraising Staff", "type": "EXPENSE" },
+        { "code": "7200", "name": "Event Costs", "type": "EXPENSE" },
+        { "code": "7300", "name": "Marketing & Communications", "type": "EXPENSE" },
+        { "code": "7400", "name": "Donor Relations", "type": "EXPENSE" }
+      ]
+    }
+  ]
+}

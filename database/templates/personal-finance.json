@@ -1,0 +1,235 @@
+{
+  "name": "Personal Finance",
+  "description": "Basic chart of accounts for personal finance management",
+  "version": "1.0",
+  "locale": "en-KE",
+  "accounts": [
+    {
+      "code": "1000",
+      "name": "Assets",
+      "type": "ASSET",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "1100",
+          "name": "Current Assets",
+          "type": "ASSET",
+          "placeholder": true,
+          "children": [
+            { "code": "1110", "name": "Cash on Hand", "type": "ASSET" },
+            { "code": "1120", "name": "Checking Account", "type": "ASSET" },
+            { "code": "1130", "name": "Savings Account", "type": "ASSET" },
+            { "code": "1140", "name": "Money Market", "type": "ASSET" },
+            { "code": "1150", "name": "M-Pesa", "type": "ASSET" }
+          ]
+        },
+        {
+          "code": "1200",
+          "name": "Investments",
+          "type": "ASSET",
+          "placeholder": true,
+          "children": [
+            { "code": "1210", "name": "Stocks", "type": "ASSET" },
+            { "code": "1220", "name": "Bonds", "type": "ASSET" },
+            { "code": "1230", "name": "Mutual Funds", "type": "ASSET" },
+            { "code": "1240", "name": "Treasury Bills", "type": "ASSET" },
+            { "code": "1250", "name": "SACCO Savings", "type": "ASSET" }
+          ]
+        },
+        {
+          "code": "1300",
+          "name": "Fixed Assets",
+          "type": "ASSET",
+          "placeholder": true,
+          "children": [
+            { "code": "1310", "name": "House/Property", "type": "ASSET" },
+            { "code": "1320", "name": "Vehicle", "type": "ASSET" },
+            { "code": "1330", "name": "Furniture", "type": "ASSET" },
+            { "code": "1340", "name": "Electronics", "type": "ASSET" }
+          ]
+        },
+        {
+          "code": "1400",
+          "name": "Receivables",
+          "type": "ASSET",
+          "placeholder": true,
+          "children": [
+            { "code": "1410", "name": "Loans to Family/Friends", "type": "ASSET" },
+            { "code": "1420", "name": "Other Receivables", "type": "ASSET" }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "2000",
+      "name": "Liabilities",
+      "type": "LIABILITY",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "2100",
+          "name": "Current Liabilities",
+          "type": "LIABILITY",
+          "placeholder": true,
+          "children": [
+            { "code": "2110", "name": "Credit Card", "type": "LIABILITY" },
+            { "code": "2120", "name": "Mobile Loan", "type": "LIABILITY" },
+            { "code": "2130", "name": "Utility Bills Payable", "type": "LIABILITY" }
+          ]
+        },
+        {
+          "code": "2200",
+          "name": "Long-term Liabilities",
+          "type": "LIABILITY",
+          "placeholder": true,
+          "children": [
+            { "code": "2210", "name": "Mortgage", "type": "LIABILITY" },
+            { "code": "2220", "name": "Car Loan", "type": "LIABILITY" },
+            { "code": "2230", "name": "Personal Loan", "type": "LIABILITY" },
+            { "code": "2240", "name": "SACCO Loan", "type": "LIABILITY" }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "3000",
+      "name": "Equity",
+      "type": "EQUITY",
+      "placeholder": true,
+      "children": [
+        { "code": "3100", "name": "Opening Balance", "type": "EQUITY" },
+        { "code": "3200", "name": "Retained Earnings", "type": "EQUITY" }
+      ]
+    },
+    {
+      "code": "4000",
+      "name": "Income",
+      "type": "INCOME",
+      "placeholder": true,
+      "children": [
+        { "code": "4100", "name": "Salary/Wages", "type": "INCOME" },
+        { "code": "4200", "name": "Bonus", "type": "INCOME" },
+        { "code": "4300", "name": "Interest Income", "type": "INCOME" },
+        { "code": "4400", "name": "Dividend Income", "type": "INCOME" },
+        { "code": "4500", "name": "Rental Income", "type": "INCOME" },
+        { "code": "4600", "name": "Side Business Income", "type": "INCOME" },
+        { "code": "4700", "name": "Gifts Received", "type": "INCOME" },
+        { "code": "4800", "name": "Other Income", "type": "INCOME" }
+      ]
+    },
+    {
+      "code": "5000",
+      "name": "Expenses",
+      "type": "EXPENSE",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "5100",
+          "name": "Housing",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "5110", "name": "Rent", "type": "EXPENSE" },
+            { "code": "5120", "name": "Mortgage Payment", "type": "EXPENSE" },
+            { "code": "5130", "name": "Property Insurance", "type": "EXPENSE" },
+            { "code": "5140", "name": "Repairs & Maintenance", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "5200",
+          "name": "Utilities",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "5210", "name": "Electricity", "type": "EXPENSE" },
+            { "code": "5220", "name": "Water", "type": "EXPENSE" },
+            { "code": "5230", "name": "Internet", "type": "EXPENSE" },
+            { "code": "5240", "name": "Mobile Phone", "type": "EXPENSE" },
+            { "code": "5250", "name": "Gas/Cooking", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "5300",
+          "name": "Transportation",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "5310", "name": "Fuel", "type": "EXPENSE" },
+            { "code": "5320", "name": "Public Transport", "type": "EXPENSE" },
+            { "code": "5330", "name": "Car Insurance", "type": "EXPENSE" },
+            { "code": "5340", "name": "Car Maintenance", "type": "EXPENSE" },
+            { "code": "5350", "name": "Parking", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "5400",
+          "name": "Food & Groceries",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "5410", "name": "Groceries", "type": "EXPENSE" },
+            { "code": "5420", "name": "Dining Out", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "5500",
+          "name": "Health",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "5510", "name": "Medical", "type": "EXPENSE" },
+            { "code": "5520", "name": "Health Insurance (NHIF)", "type": "EXPENSE" },
+            { "code": "5530", "name": "Dental", "type": "EXPENSE" },
+            { "code": "5540", "name": "Pharmacy", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "5600",
+          "name": "Personal",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "5610", "name": "Clothing", "type": "EXPENSE" },
+            { "code": "5620", "name": "Personal Care", "type": "EXPENSE" },
+            { "code": "5630", "name": "Entertainment", "type": "EXPENSE" },
+            { "code": "5640", "name": "Subscriptions", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "5700",
+          "name": "Education",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "5710", "name": "School Fees", "type": "EXPENSE" },
+            { "code": "5720", "name": "Books & Supplies", "type": "EXPENSE" },
+            { "code": "5730", "name": "Courses & Training", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "5800",
+          "name": "Financial",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "5810", "name": "Bank Fees", "type": "EXPENSE" },
+            { "code": "5820", "name": "M-Pesa Fees", "type": "EXPENSE" },
+            { "code": "5830", "name": "Interest Expense", "type": "EXPENSE" },
+            { "code": "5840", "name": "SACCO Contributions", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "5900",
+          "name": "Other",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "5910", "name": "Gifts Given", "type": "EXPENSE" },
+            { "code": "5920", "name": "Charity/Tithe", "type": "EXPENSE" },
+            { "code": "5930", "name": "Miscellaneous", "type": "EXPENSE" }
+          ]
+        }
+      ]
+    }
+  ]
+}

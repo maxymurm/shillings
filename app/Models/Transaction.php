@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToCompany;
+use App\ValueObjects\Money;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,13 +25,21 @@ class Transaction extends Model
      */
     protected $fillable = [
         'company_id',
+        'currency_id',
         'transaction_date',
         'post_date',
         'description',
-        'num',
+        'reference',
         'notes',
         'is_posted',
-        'created_by',
+        'posted_at',
+        'is_void',
+        'void_reason',
+        'voided_at',
+        'voided_by_id',
+        'created_by_id',
+        'reverses_id',
+        'reversed_by_id',
     ];
 
     /**
@@ -42,6 +51,9 @@ class Transaction extends Model
         'transaction_date' => 'date',
         'post_date' => 'date',
         'is_posted' => 'boolean',
+        'is_void' => 'boolean',
+        'posted_at' => 'datetime',
+        'voided_at' => 'datetime',
     ];
 
     /**
@@ -53,11 +65,43 @@ class Transaction extends Model
     }
 
     /**
+     * The currency for this transaction.
+     */
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
+    /**
      * The user who created this transaction.
      */
-    public function creator(): BelongsTo
+    public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    /**
+     * The user who voided this transaction.
+     */
+    public function voidedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'voided_by_id');
+    }
+
+    /**
+     * The transaction this reverses (if this is a reversal).
+     */
+    public function reverses(): BelongsTo
+    {
+        return $this->belongsTo(Transaction::class, 'reverses_id');
+    }
+
+    /**
+     * The transaction that reversed this one.
+     */
+    public function reversedBy(): BelongsTo
+    {
+        return $this->belongsTo(Transaction::class, 'reversed_by_id');
     }
 
     /**
@@ -73,80 +117,105 @@ class Transaction extends Model
      */
     public function isBalanced(): bool
     {
-        $debits = $this->splits()
-            ->where('action', Split::DEBIT)
-            ->sum('value_num');
+        $total = Money::zero();
 
-        $credits = $this->splits()
-            ->where('action', Split::CREDIT)
-            ->sum('value_num');
-
-        return $debits === $credits;
-    }
-
-    /**
-     * Get the total amount of the transaction (sum of all debits).
-     */
-    public function getTotal(): float
-    {
-        $totalNum = $this->splits()
-            ->where('action', Split::DEBIT)
-            ->sum('value_num');
-
-        $totalDenom = $this->splits()
-            ->where('action', Split::DEBIT)
-            ->first()?->value_denom ?? 100;
-
-        return $totalNum / $totalDenom;
-    }
-
-    /**
-     * Mark the transaction as posted (immutable).
-     */
-    public function post(): self
-    {
-        if (! $this->isBalanced()) {
-            throw new \RuntimeException('Cannot post an unbalanced transaction');
-        }
-
-        $this->is_posted = true;
-        $this->post_date = now();
-        $this->save();
-
-        return $this;
-    }
-
-    /**
-     * Create a reversing entry for this transaction.
-     */
-    public function reverse(string $description = null): Transaction
-    {
-        $reversal = $this->replicate([
-            'is_posted',
-            'post_date',
-            'created_at',
-            'updated_at',
-        ]);
-
-        $reversal->description = $description ?? "Reversal of: {$this->description}";
-        $reversal->transaction_date = now();
-        $reversal->is_posted = false;
-        $reversal->save();
-
-        // Create reversed splits
         foreach ($this->splits as $split) {
-            $reversal->splits()->create([
-                'account_id' => $split->account_id,
-                'amount_num' => $split->amount_num,
-                'amount_denom' => $split->amount_denom,
-                'value_num' => $split->value_num,
-                'value_denom' => $split->value_denom,
-                'action' => $split->action === Split::DEBIT ? Split::CREDIT : Split::DEBIT,
-                'memo' => "Reversal: {$split->memo}",
-            ]);
+            $amount = Money::fromFraction($split->amount_num, $split->amount_denom);
+            $total = $total->add($amount);
         }
 
-        return $reversal;
+        return $total->isZero();
+    }
+
+    /**
+     * Get the total amount of the transaction (sum of all positive splits).
+     */
+    public function getTotal(): Money
+    {
+        $total = Money::zero($this->currency?->code);
+
+        foreach ($this->splits as $split) {
+            $amount = Money::fromFraction($split->amount_num, $split->amount_denom, $this->currency?->code);
+            if ($amount->isPositive()) {
+                $total = $total->add($amount);
+            }
+        }
+
+        return $total;
+    }
+
+    /**
+     * Check if transaction can be edited.
+     */
+    public function canEdit(): bool
+    {
+        return ! $this->is_posted && ! $this->is_void;
+    }
+
+    /**
+     * Check if transaction can be deleted.
+     */
+    public function canDelete(): bool
+    {
+        return ! $this->is_posted && ! $this->is_void;
+    }
+
+    /**
+     * Check if transaction can be posted.
+     */
+    public function canPost(): bool
+    {
+        return ! $this->is_posted && ! $this->is_void && $this->isBalanced();
+    }
+
+    /**
+     * Check if transaction can be reversed.
+     */
+    public function canReverse(): bool
+    {
+        return $this->is_posted && ! $this->is_void && ! $this->reversed_by_id;
+    }
+
+    /**
+     * Check if transaction can be voided.
+     */
+    public function canVoid(): bool
+    {
+        return $this->is_posted && ! $this->is_void && ! $this->reversed_by_id;
+    }
+
+    /**
+     * Check if this is a reversal transaction.
+     */
+    public function isReversal(): bool
+    {
+        return $this->reverses_id !== null;
+    }
+
+    /**
+     * Check if this transaction has been reversed.
+     */
+    public function isReversed(): bool
+    {
+        return $this->reversed_by_id !== null;
+    }
+
+    /**
+     * Get transaction status.
+     */
+    public function getStatus(): string
+    {
+        if ($this->is_void) {
+            return 'void';
+        }
+        if ($this->reversed_by_id) {
+            return 'reversed';
+        }
+        if ($this->is_posted) {
+            return 'posted';
+        }
+
+        return 'draft';
     }
 
     /**
@@ -166,11 +235,35 @@ class Transaction extends Model
     }
 
     /**
+     * Scope to exclude voided transactions.
+     */
+    public function scopeNotVoid($query)
+    {
+        return $query->where('is_void', false);
+    }
+
+    /**
+     * Scope to exclude reversed transactions.
+     */
+    public function scopeNotReversed($query)
+    {
+        return $query->whereNull('reversed_by_id');
+    }
+
+    /**
+     * Scope to get only effective transactions (posted, not void, not reversed).
+     */
+    public function scopeEffective($query)
+    {
+        return $query->posted()->notVoid()->notReversed();
+    }
+
+    /**
      * Scope to get transactions on or after a date.
      */
     public function scopeFromDate($query, $date)
     {
-        return $query->where('transaction_date', '>=', $date);
+        return $query->where('post_date', '>=', $date);
     }
 
     /**
@@ -178,7 +271,7 @@ class Transaction extends Model
      */
     public function scopeToDate($query, $date)
     {
-        return $query->where('transaction_date', '<=', $date);
+        return $query->where('post_date', '<=', $date);
     }
 
     /**

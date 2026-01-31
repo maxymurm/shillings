@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ChartOfAccountsController;
+use App\Http\Controllers\Api\ExchangeRateController;
 use App\Http\Controllers\Api\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -60,5 +62,24 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{transaction}/reverse', [TransactionController::class, 'reverse'])->middleware('ability:transactions:post');
         Route::post('/{transaction}/void', [TransactionController::class, 'void'])->middleware('ability:transactions:post');
         Route::post('/{transaction}/reconcile', [TransactionController::class, 'reconcile'])->middleware('ability:transactions:update');
+    });
+
+    // Exchange Rates
+    Route::prefix('exchange-rates')->group(function () {
+        Route::get('/', [ExchangeRateController::class, 'index'])->middleware('ability:settings:read');
+        Route::get('/pair/{from}/{to}', [ExchangeRateController::class, 'getPairRate'])->middleware('ability:settings:read');
+        Route::post('/convert', [ExchangeRateController::class, 'convert'])->middleware('ability:settings:read');
+        Route::get('/{exchangeRate}', [ExchangeRateController::class, 'show'])->middleware('ability:settings:read');
+        Route::post('/', [ExchangeRateController::class, 'store'])->middleware('ability:settings:update');
+        Route::put('/{exchangeRate}', [ExchangeRateController::class, 'update'])->middleware('ability:settings:update');
+        Route::delete('/{exchangeRate}', [ExchangeRateController::class, 'destroy'])->middleware('ability:settings:delete');
+    });
+
+    // Chart of Accounts Templates
+    Route::prefix('chart-of-accounts')->group(function () {
+        Route::get('/templates', [ChartOfAccountsController::class, 'templates'])->middleware('ability:accounts:read');
+        Route::get('/templates/{key}', [ChartOfAccountsController::class, 'showTemplate'])->middleware('ability:accounts:read');
+        Route::get('/preview/{key}', [ChartOfAccountsController::class, 'preview'])->middleware('ability:accounts:create');
+        Route::post('/import', [ChartOfAccountsController::class, 'import'])->middleware('ability:accounts:create');
     });
 });

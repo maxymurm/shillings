@@ -1,0 +1,207 @@
+{
+  "name": "Retail Business",
+  "description": "Chart of accounts optimized for retail and trading businesses",
+  "version": "1.0",
+  "locale": "en-KE",
+  "accounts": [
+    {
+      "code": "1000",
+      "name": "Assets",
+      "type": "ASSET",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "1100",
+          "name": "Current Assets",
+          "type": "ASSET",
+          "placeholder": true,
+          "children": [
+            { "code": "1110", "name": "Cash Register", "type": "ASSET" },
+            { "code": "1120", "name": "Petty Cash", "type": "ASSET" },
+            { "code": "1130", "name": "Bank Account - Operating", "type": "ASSET" },
+            { "code": "1140", "name": "M-Pesa Till", "type": "ASSET" },
+            { "code": "1150", "name": "Accounts Receivable", "type": "ASSET" },
+            {
+              "code": "1160",
+              "name": "Inventory",
+              "type": "ASSET",
+              "placeholder": true,
+              "children": [
+                { "code": "1161", "name": "Merchandise Inventory", "type": "ASSET" },
+                { "code": "1162", "name": "Work in Progress", "type": "ASSET" },
+                { "code": "1163", "name": "Goods in Transit", "type": "ASSET" }
+              ]
+            },
+            { "code": "1170", "name": "Prepaid Rent", "type": "ASSET" },
+            { "code": "1180", "name": "Prepaid Insurance", "type": "ASSET" }
+          ]
+        },
+        {
+          "code": "1200",
+          "name": "Fixed Assets",
+          "type": "ASSET",
+          "placeholder": true,
+          "children": [
+            { "code": "1210", "name": "Shop Premises", "type": "ASSET" },
+            { "code": "1220", "name": "Shop Fittings", "type": "ASSET" },
+            { "code": "1230", "name": "Display Shelves", "type": "ASSET" },
+            { "code": "1240", "name": "POS Equipment", "type": "ASSET" },
+            { "code": "1250", "name": "Refrigeration", "type": "ASSET" },
+            { "code": "1260", "name": "Delivery Vehicle", "type": "ASSET" },
+            { "code": "1290", "name": "Accumulated Depreciation", "type": "ASSET" }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "2000",
+      "name": "Liabilities",
+      "type": "LIABILITY",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "2100",
+          "name": "Current Liabilities",
+          "type": "LIABILITY",
+          "placeholder": true,
+          "children": [
+            { "code": "2110", "name": "Accounts Payable - Suppliers", "type": "LIABILITY" },
+            { "code": "2120", "name": "Customer Deposits", "type": "LIABILITY" },
+            { "code": "2130", "name": "Salaries Payable", "type": "LIABILITY" },
+            { "code": "2140", "name": "VAT Payable", "type": "LIABILITY" },
+            { "code": "2150", "name": "PAYE Payable", "type": "LIABILITY" },
+            { "code": "2160", "name": "Statutory Deductions", "type": "LIABILITY" }
+          ]
+        },
+        {
+          "code": "2200",
+          "name": "Long-term Liabilities",
+          "type": "LIABILITY",
+          "placeholder": true,
+          "children": [
+            { "code": "2210", "name": "Bank Loan", "type": "LIABILITY" },
+            { "code": "2220", "name": "Supplier Credit", "type": "LIABILITY" }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "3000",
+      "name": "Equity",
+      "type": "EQUITY",
+      "placeholder": true,
+      "children": [
+        { "code": "3100", "name": "Owner's Capital", "type": "EQUITY" },
+        { "code": "3200", "name": "Owner's Drawings", "type": "EQUITY" },
+        { "code": "3300", "name": "Retained Earnings", "type": "EQUITY" }
+      ]
+    },
+    {
+      "code": "4000",
+      "name": "Revenue",
+      "type": "INCOME",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "4100",
+          "name": "Sales",
+          "type": "INCOME",
+          "placeholder": true,
+          "children": [
+            { "code": "4110", "name": "Cash Sales", "type": "INCOME" },
+            { "code": "4120", "name": "Credit Sales", "type": "INCOME" },
+            { "code": "4130", "name": "M-Pesa Sales", "type": "INCOME" },
+            { "code": "4140", "name": "Card Sales", "type": "INCOME" }
+          ]
+        },
+        { "code": "4200", "name": "Sales Returns", "type": "INCOME" },
+        { "code": "4300", "name": "Sales Discounts Given", "type": "INCOME" },
+        { "code": "4400", "name": "Delivery Fees Collected", "type": "INCOME" }
+      ]
+    },
+    {
+      "code": "5000",
+      "name": "Cost of Goods Sold",
+      "type": "EXPENSE",
+      "placeholder": true,
+      "children": [
+        { "code": "5100", "name": "Purchases", "type": "EXPENSE" },
+        { "code": "5200", "name": "Purchase Returns", "type": "EXPENSE" },
+        { "code": "5300", "name": "Purchase Discounts", "type": "EXPENSE" },
+        { "code": "5400", "name": "Freight In", "type": "EXPENSE" },
+        { "code": "5500", "name": "Import Duties", "type": "EXPENSE" },
+        { "code": "5600", "name": "Inventory Shrinkage", "type": "EXPENSE" },
+        { "code": "5700", "name": "Stock Write-offs", "type": "EXPENSE" }
+      ]
+    },
+    {
+      "code": "6000",
+      "name": "Operating Expenses",
+      "type": "EXPENSE",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "6100",
+          "name": "Staff Costs",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6110", "name": "Salaries - Sales Staff", "type": "EXPENSE" },
+            { "code": "6120", "name": "Commissions", "type": "EXPENSE" },
+            { "code": "6130", "name": "Staff Welfare", "type": "EXPENSE" },
+            { "code": "6140", "name": "Uniforms", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6200",
+          "name": "Shop Costs",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6210", "name": "Shop Rent", "type": "EXPENSE" },
+            { "code": "6220", "name": "Electricity", "type": "EXPENSE" },
+            { "code": "6230", "name": "Security", "type": "EXPENSE" },
+            { "code": "6240", "name": "Cleaning", "type": "EXPENSE" },
+            { "code": "6250", "name": "Repairs & Maintenance", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6300",
+          "name": "Delivery Costs",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6310", "name": "Fuel", "type": "EXPENSE" },
+            { "code": "6320", "name": "Vehicle Maintenance", "type": "EXPENSE" },
+            { "code": "6330", "name": "Courier Services", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6400",
+          "name": "Marketing",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6410", "name": "Advertising", "type": "EXPENSE" },
+            { "code": "6420", "name": "Promotions", "type": "EXPENSE" },
+            { "code": "6430", "name": "Signage", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6500",
+          "name": "Administrative",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6510", "name": "Accounting Fees", "type": "EXPENSE" },
+            { "code": "6520", "name": "Bank Charges", "type": "EXPENSE" },
+            { "code": "6530", "name": "M-Pesa Charges", "type": "EXPENSE" },
+            { "code": "6540", "name": "Insurance", "type": "EXPENSE" },
+            { "code": "6550", "name": "Licenses", "type": "EXPENSE" },
+            { "code": "6560", "name": "Bad Debts", "type": "EXPENSE" }
+          ]
+        }
+      ]
+    }
+  ]
+}

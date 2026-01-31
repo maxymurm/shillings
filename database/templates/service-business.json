@@ -1,0 +1,242 @@
+{
+  "name": "Service Business",
+  "description": "Chart of accounts for service-based businesses (consultants, agencies, freelancers)",
+  "version": "1.0",
+  "locale": "en-KE",
+  "accounts": [
+    {
+      "code": "1000",
+      "name": "Assets",
+      "type": "ASSET",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "1100",
+          "name": "Current Assets",
+          "type": "ASSET",
+          "placeholder": true,
+          "children": [
+            { "code": "1110", "name": "Cash on Hand", "type": "ASSET" },
+            { "code": "1120", "name": "Petty Cash", "type": "ASSET" },
+            { "code": "1130", "name": "Bank Account - Operating", "type": "ASSET" },
+            { "code": "1140", "name": "Bank Account - Client Trust", "type": "ASSET" },
+            { "code": "1150", "name": "M-Pesa Business", "type": "ASSET" },
+            { "code": "1160", "name": "Accounts Receivable", "type": "ASSET" },
+            { "code": "1170", "name": "Unbilled Revenue", "type": "ASSET" },
+            { "code": "1180", "name": "Work in Progress", "type": "ASSET" },
+            { "code": "1190", "name": "Prepaid Expenses", "type": "ASSET" }
+          ]
+        },
+        {
+          "code": "1200",
+          "name": "Fixed Assets",
+          "type": "ASSET",
+          "placeholder": true,
+          "children": [
+            { "code": "1210", "name": "Office Furniture", "type": "ASSET" },
+            { "code": "1220", "name": "Computer Equipment", "type": "ASSET" },
+            { "code": "1230", "name": "Office Equipment", "type": "ASSET" },
+            { "code": "1240", "name": "Vehicle", "type": "ASSET" },
+            { "code": "1290", "name": "Accumulated Depreciation", "type": "ASSET" }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "2000",
+      "name": "Liabilities",
+      "type": "LIABILITY",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "2100",
+          "name": "Current Liabilities",
+          "type": "LIABILITY",
+          "placeholder": true,
+          "children": [
+            { "code": "2110", "name": "Accounts Payable", "type": "LIABILITY" },
+            { "code": "2120", "name": "Client Retainers", "type": "LIABILITY" },
+            { "code": "2130", "name": "Deferred Revenue", "type": "LIABILITY" },
+            { "code": "2140", "name": "Salaries Payable", "type": "LIABILITY" },
+            { "code": "2150", "name": "VAT Payable", "type": "LIABILITY" },
+            { "code": "2160", "name": "Withholding Tax Payable", "type": "LIABILITY" },
+            { "code": "2170", "name": "PAYE Payable", "type": "LIABILITY" },
+            { "code": "2180", "name": "NSSF Payable", "type": "LIABILITY" },
+            { "code": "2190", "name": "NHIF Payable", "type": "LIABILITY" }
+          ]
+        },
+        {
+          "code": "2200",
+          "name": "Long-term Liabilities",
+          "type": "LIABILITY",
+          "placeholder": true,
+          "children": [
+            { "code": "2210", "name": "Bank Loan", "type": "LIABILITY" },
+            { "code": "2220", "name": "Director Loans", "type": "LIABILITY" }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "3000",
+      "name": "Equity",
+      "type": "EQUITY",
+      "placeholder": true,
+      "children": [
+        { "code": "3100", "name": "Owner's Capital", "type": "EQUITY" },
+        { "code": "3200", "name": "Owner's Drawings", "type": "EQUITY" },
+        { "code": "3300", "name": "Retained Earnings", "type": "EQUITY" }
+      ]
+    },
+    {
+      "code": "4000",
+      "name": "Revenue",
+      "type": "INCOME",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "4100",
+          "name": "Service Revenue",
+          "type": "INCOME",
+          "placeholder": true,
+          "children": [
+            { "code": "4110", "name": "Consulting Fees", "type": "INCOME" },
+            { "code": "4120", "name": "Professional Fees", "type": "INCOME" },
+            { "code": "4130", "name": "Project Fees", "type": "INCOME" },
+            { "code": "4140", "name": "Retainer Fees", "type": "INCOME" },
+            { "code": "4150", "name": "Hourly Billings", "type": "INCOME" }
+          ]
+        },
+        {
+          "code": "4200",
+          "name": "Reimbursable Revenue",
+          "type": "INCOME",
+          "placeholder": true,
+          "children": [
+            { "code": "4210", "name": "Travel Reimbursements", "type": "INCOME" },
+            { "code": "4220", "name": "Materials Reimbursements", "type": "INCOME" }
+          ]
+        },
+        { "code": "4300", "name": "Other Revenue", "type": "INCOME" }
+      ]
+    },
+    {
+      "code": "5000",
+      "name": "Cost of Services",
+      "type": "EXPENSE",
+      "placeholder": true,
+      "children": [
+        { "code": "5100", "name": "Direct Labor", "type": "EXPENSE" },
+        { "code": "5200", "name": "Subcontractors", "type": "EXPENSE" },
+        { "code": "5300", "name": "Project Materials", "type": "EXPENSE" },
+        { "code": "5400", "name": "Project Travel", "type": "EXPENSE" },
+        { "code": "5500", "name": "Project Software/Tools", "type": "EXPENSE" }
+      ]
+    },
+    {
+      "code": "6000",
+      "name": "Operating Expenses",
+      "type": "EXPENSE",
+      "placeholder": true,
+      "children": [
+        {
+          "code": "6100",
+          "name": "Payroll",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6110", "name": "Salaries & Wages", "type": "EXPENSE" },
+            { "code": "6120", "name": "Employer NSSF", "type": "EXPENSE" },
+            { "code": "6130", "name": "Employer NHIF", "type": "EXPENSE" },
+            { "code": "6140", "name": "Staff Benefits", "type": "EXPENSE" },
+            { "code": "6150", "name": "Training", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6200",
+          "name": "Office Expenses",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6210", "name": "Rent", "type": "EXPENSE" },
+            { "code": "6220", "name": "Utilities", "type": "EXPENSE" },
+            { "code": "6230", "name": "Internet", "type": "EXPENSE" },
+            { "code": "6240", "name": "Office Supplies", "type": "EXPENSE" },
+            { "code": "6250", "name": "Repairs & Maintenance", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6300",
+          "name": "Technology",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6310", "name": "Software Subscriptions", "type": "EXPENSE" },
+            { "code": "6320", "name": "Cloud Services", "type": "EXPENSE" },
+            { "code": "6330", "name": "IT Support", "type": "EXPENSE" },
+            { "code": "6340", "name": "Equipment Maintenance", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6400",
+          "name": "Marketing & BD",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6410", "name": "Marketing", "type": "EXPENSE" },
+            { "code": "6420", "name": "Website", "type": "EXPENSE" },
+            { "code": "6430", "name": "Networking Events", "type": "EXPENSE" },
+            { "code": "6440", "name": "Client Entertainment", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6500",
+          "name": "Travel",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6510", "name": "Local Travel", "type": "EXPENSE" },
+            { "code": "6520", "name": "International Travel", "type": "EXPENSE" },
+            { "code": "6530", "name": "Accommodation", "type": "EXPENSE" },
+            { "code": "6540", "name": "Per Diem", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6600",
+          "name": "Professional",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6610", "name": "Accounting", "type": "EXPENSE" },
+            { "code": "6620", "name": "Legal", "type": "EXPENSE" },
+            { "code": "6630", "name": "Professional Membership", "type": "EXPENSE" },
+            { "code": "6640", "name": "Insurance", "type": "EXPENSE" },
+            { "code": "6650", "name": "Licenses", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6700",
+          "name": "Financial",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6710", "name": "Bank Charges", "type": "EXPENSE" },
+            { "code": "6720", "name": "M-Pesa Charges", "type": "EXPENSE" },
+            { "code": "6730", "name": "Interest Expense", "type": "EXPENSE" },
+            { "code": "6740", "name": "Bad Debts", "type": "EXPENSE" }
+          ]
+        },
+        {
+          "code": "6800",
+          "name": "Other",
+          "type": "EXPENSE",
+          "placeholder": true,
+          "children": [
+            { "code": "6810", "name": "Depreciation", "type": "EXPENSE" },
+            { "code": "6820", "name": "Miscellaneous", "type": "EXPENSE" }
+          ]
+        }
+      ]
+    }
+  ]
+}
