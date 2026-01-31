@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ChartOfAccountsController;
 use App\Http\Controllers\Api\ExchangeRateController;
+use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -81,5 +82,17 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/templates/{key}', [ChartOfAccountsController::class, 'showTemplate'])->middleware('ability:accounts:read');
         Route::get('/preview/{key}', [ChartOfAccountsController::class, 'preview'])->middleware('ability:accounts:create');
         Route::post('/import', [ChartOfAccountsController::class, 'import'])->middleware('ability:accounts:create');
+    });
+
+    // Reports
+    Route::prefix('reports')->group(function () {
+        Route::get('/', [ReportController::class, 'index'])->middleware('ability:reports:read');
+        Route::get('/trial-balance', [ReportController::class, 'trialBalance'])->middleware('ability:reports:read');
+        Route::get('/balance-sheet', [ReportController::class, 'balanceSheet'])->middleware('ability:reports:read');
+        Route::get('/income-statement', [ReportController::class, 'incomeStatement'])->middleware('ability:reports:read');
+        Route::get('/cash-flow', [ReportController::class, 'cashFlow'])->middleware('ability:reports:read');
+        Route::get('/general-ledger', [ReportController::class, 'generalLedger'])->middleware('ability:reports:read');
+        Route::get('/account-register', [ReportController::class, 'accountRegister'])->middleware('ability:reports:read');
+        Route::post('/export', [ReportController::class, 'export'])->middleware('ability:reports:export');
     });
 });
