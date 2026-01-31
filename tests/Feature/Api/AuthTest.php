@@ -10,13 +10,20 @@ class AuthTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(\Database\Seeders\RoleAndPermissionSeeder::class);
+    }
+
     public function test_user_can_register(): void
     {
-        $response = $this->postJson('/api/register', [
+        $response = $this->postJson('/api/auth/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
+            'device_name' => 'Test Device',
         ]);
 
         $response->assertStatus(201)
@@ -37,9 +44,10 @@ class AuthTest extends TestCase
             'password' => bcrypt('password123'),
         ]);
 
-        $response = $this->postJson('/api/login', [
+        $response = $this->postJson('/api/auth/login', [
             'email' => 'test@example.com',
             'password' => 'password123',
+            'device_name' => 'Test Device',
         ]);
 
         $response->assertStatus(200)
@@ -56,9 +64,10 @@ class AuthTest extends TestCase
             'password' => bcrypt('password123'),
         ]);
 
-        $response = $this->postJson('/api/login', [
+        $response = $this->postJson('/api/auth/login', [
             'email' => 'test@example.com',
             'password' => 'wrongpassword',
+            'device_name' => 'Test Device',
         ]);
 
         $response->assertStatus(422);
@@ -70,14 +79,14 @@ class AuthTest extends TestCase
         $token = $user->createToken('test-token')->plainTextToken;
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)
-            ->postJson('/api/logout');
+            ->postJson('/api/auth/logout');
 
         $response->assertStatus(200);
     }
 
     public function test_unauthenticated_access_is_rejected(): void
     {
-        $response = $this->getJson('/api/user');
+        $response = $this->getJson('/api/auth/me');
 
         $response->assertStatus(401);
     }
@@ -88,9 +97,9 @@ class AuthTest extends TestCase
         $token = $user->createToken('test-token')->plainTextToken;
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)
-            ->getJson('/api/user');
+            ->getJson('/api/auth/me');
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'name', 'email']);
+            ->assertJsonStructure(['user' => ['id', 'name', 'email']]);
     }
 }

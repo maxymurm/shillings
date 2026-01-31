@@ -12,7 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Register Sanctum ability middleware alias
+        $middleware->alias([
+            'ability' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
+            'abilities' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -132,11 +132,14 @@ class Account extends Model
      */
     public function getDescendants(): \Illuminate\Database\Eloquent\Collection
     {
-        $descendants = collect();
+        $descendants = new \Illuminate\Database\Eloquent\Collection();
 
         foreach ($this->children as $child) {
             $descendants->push($child);
-            $descendants = $descendants->merge($child->getDescendants());
+            $childDescendants = $child->getDescendants();
+            foreach ($childDescendants as $desc) {
+                $descendants->push($desc);
+            }
         }
 
         return $descendants;

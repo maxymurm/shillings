@@ -331,4 +331,36 @@ class TransactionService
             'total_amount' => $totalAmount,
         ];
     }
+
+    /**
+     * Check if a transaction is balanced (debits = credits).
+     *
+     * @param  Transaction  $transaction  The transaction to check
+     * @return bool True if balanced, false otherwise
+     */
+    public function isBalanced(Transaction $transaction): bool
+    {
+        $splits = $transaction->splits;
+
+        if ($splits->count() < 2) {
+            return false;
+        }
+
+        $debits = 0;
+        $credits = 0;
+
+        foreach ($splits as $split) {
+            // Normalize to same denominator for comparison
+            $normalizedAmount = $split->amount_num / $split->amount_denom;
+
+            if ($split->action === Split::DEBIT) {
+                $debits += $normalizedAmount;
+            } else {
+                $credits += $normalizedAmount;
+            }
+        }
+
+        // Allow for small floating point differences
+        return abs($debits - $credits) <= 0.001;
+    }
 }
