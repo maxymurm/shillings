@@ -1,115 +1,229 @@
-﻿# Shillings - Modern Accounting Application
+# Shillings - Offline-First Accounting
 
-**Laravel + Filament conversion of GnuCash double-entry accounting software**
+A modern, offline-first double-entry bookkeeping application built with Laravel 12 and Filament 4, inspired by GnuCash's precision accounting principles.
 
-## Overview
-
-Shillings is a modern web-based accounting application that brings the power of GnuCash's double-entry bookkeeping to the web. Built with Laravel 12 and Filament 4.3.
+[![CI/CD Pipeline](https://github.com/maxymurm/shillings/actions/workflows/ci.yml/badge.svg)](https://github.com/maxymurm/shillings/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## Features
 
-- Double-entry bookkeeping
-- Multi-currency support
-- Multi-company support
-- Financial reports and charts
-- Account reconciliation
-- Transaction management
-- Budgeting and forecasting
-- Import/Export capabilities
-- REST API with Laravel Sanctum
+- 🔢 **Double-Entry Bookkeeping** - GnuCash-compatible precision arithmetic using fractions
+- 🏢 **Multi-Company Support** - Manage multiple businesses from one installation
+- 💱 **Multi-Currency** - 50+ currencies with proper exchange rate handling
+- 📊 **Financial Reports** - Trial Balance, Balance Sheet, Income Statement, Cash Flow
+- 🔌 **REST API** - Full API with Sanctum authentication
+- 🌐 **Offline-First** - Works without internet (coming soon)
+- 🎨 **Modern UI** - Beautiful Filament 4 admin panel with dark mode
 
 ## Tech Stack
 
 - **Backend:** Laravel 12 + PHP 8.3
 - **Admin Panel:** Filament 4.3
-- **Database:** PostgreSQL 16
-- **Frontend:** Livewire + Tailwind CSS
+- **Database:** PostgreSQL 15+ (production) / SQLite (development)
+- **Frontend:** Livewire 3 + Tailwind CSS
 - **API Auth:** Laravel Sanctum
 
 ## Requirements
 
-- PHP 8.2+
+- PHP 8.3+
 - Composer 2.x
-- PostgreSQL 15+ (or use Herd's built-in PostgreSQL)
-- Node.js 18+ & npm
+- Node.js 20+
+- PostgreSQL 15+ (production) or SQLite (development)
 
 ## Installation
 
+### 1. Clone the Repository
+
 ```bash
-# Clone the repository
 git clone https://github.com/maxymurm/shillings.git
 cd shillings
-
-# Install PHP dependencies
-composer install
-
-# Copy environment file
-cp .env.example .env
-
-# Generate application key
-php artisan key:generate
-
-# Configure your database in .env
-# DB_CONNECTION=pgsql
-# DB_HOST=127.0.0.1
-# DB_PORT=5432
-# DB_DATABASE=shillings
-# DB_USERNAME=postgres
-# DB_PASSWORD=your_password
-
-# Run migrations
-php artisan migrate
-
-# (Optional) Seed the database with sample data
-php artisan db:seed
-
-# Install Node dependencies
-npm install
-
-# Build frontend assets
-npm run build
 ```
 
-## Development
+### 2. Install Dependencies
 
 ```bash
-# Start development server (Laravel, Queue, Vite)
-composer dev
-
-# Or run individually
-php artisan serve
-npm run dev
+composer install
+npm install
 ```
 
-## Admin Panel
+### 3. Configure Environment
 
-Access the admin panel at `/admin`. Create your first admin user:
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Edit `.env` with your database credentials:
+
+```env
+DB_CONNECTION=sqlite
+DB_DATABASE=/absolute/path/to/database.sqlite
+```
+
+Or for PostgreSQL:
+
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=shillings
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+### 4. Run Migrations and Seeders
+
+```bash
+php artisan migrate --seed
+```
+
+This will create:
+- 50+ currencies
+- 5 standard account types
+- Default roles and permissions
+
+### 5. Create Admin User
 
 ```bash
 php artisan make:filament-user
 ```
 
-## API Documentation
+### 6. Build Assets
 
-The API is available at `/api/v1/`. Authentication is handled via Laravel Sanctum tokens.
+```bash
+npm run build
+```
 
-## Testing
+### 7. Start Development Server
+
+```bash
+php artisan serve
+```
+
+Visit `http://localhost:8000/admin` to access the admin panel.
+
+## Development
+
+### Running Tests
 
 ```bash
 # Run all tests
-composer test
+php artisan test
 
-# Run with coverage
-php artisan test --coverage
+# Run with parallel execution
+php artisan test --parallel
+
+# Run specific test suite
+php artisan test --testsuite=Unit
+php artisan test --testsuite=Feature
 ```
+
+### Code Quality
+
+```bash
+# Fix code style
+vendor/bin/pint
+
+# Static analysis
+vendor/bin/phpstan analyse
+```
+
+### Fresh Database
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+## Architecture
+
+### Database Schema
+
+```
+currencies
+    └── companies (has default_currency)
+            ├── account_types
+            └── accounts (hierarchical tree)
+                    └── splits
+                            └── transactions
+```
+
+### Double-Entry System
+
+Shillings uses GnuCash-style split transactions:
+
+- Each transaction has multiple splits
+- Splits use fraction-based amounts (`amount_num`/`amount_denom`)
+- Total debits must equal total credits
+- Actions: `DEBIT` or `CREDIT`
+
+### Account Types
+
+| Type | Normal Balance | Examples |
+|------|----------------|----------|
+| ASSET | Debit | Bank, Inventory, Equipment |
+| LIABILITY | Credit | Loans, Credit Cards, Payables |
+| EQUITY | Credit | Owner's Equity, Retained Earnings |
+| INCOME | Credit | Sales, Interest Income |
+| EXPENSE | Debit | Rent, Utilities, Salaries |
+
+## API Documentation
+
+See [API_DOCUMENTATION.md](docs/api/API_DOCUMENTATION.md) for complete API reference.
+
+### Quick Start
+
+```bash
+# Register
+curl -X POST http://localhost:8000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"name": "John", "email": "john@example.com", "password": "password", "password_confirmation": "password"}'
+
+# Login
+curl -X POST http://localhost:8000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "john@example.com", "password": "password"}'
+```
+
+## Deployment
+
+See [FORGE_DEPLOYMENT.md](docs/deployment/FORGE_DEPLOYMENT.md) for production deployment guide.
+
+### Quick Deploy Checklist
+
+- [ ] Configure PostgreSQL database
+- [ ] Set `APP_ENV=production` and `APP_DEBUG=false`
+- [ ] Run `php artisan config:cache`
+- [ ] Configure Redis for cache/queue
+- [ ] Set up SSL certificate
+- [ ] Configure queue worker
+- [ ] Enable scheduler
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
+
+### Development Workflow
+
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/my-feature`
+3. Make changes and add tests
+4. Run tests: `php artisan test`
+5. Run code quality checks: `vendor/bin/pint && vendor/bin/phpstan analyse`
+6. Commit with conventional commits: `git commit -m "feat: add new feature"`
+7. Push and create Pull Request
 
 ## License
 
-MIT License
+This project is open-sourced software licensed under the [MIT license](LICENSE).
 
 ## Credits
 
-- [GnuCash](https://github.com/Gnucash/gnucash) - Accounting model inspiration
-- [Akaunting](https://github.com/akaunting/akaunting) - UX inspiration
-- [Laravel](https://laravel.com) - Framework
-- [Filament](https://filamentphp.com) - Admin panel
+- **Developer**: Maxwell Murunga ([@maxymurm](https://github.com/maxymurm))
+- **Company**: Advent Digital
+- **Inspiration**: [GnuCash](https://www.gnucash.org/) for accounting principles
+
+## Support
+
+- 📖 [Documentation](docs/)
+- 🐛 [Issue Tracker](https://github.com/maxymurm/shillings/issues)
+- 📋 [Project Board](https://github.com/users/maxymurm/projects/4)
