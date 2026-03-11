@@ -216,12 +216,12 @@ class GeneralLedgerReport extends BaseReport
             ->join('transactions', 'splits.transaction_id', '=', 'transactions.id')
             ->where('splits.account_id', $account->id)
             ->where('transactions.is_void', false)
-            ->whereNotNull('transactions.posted_at')
+            ->where('transactions.is_posted', true)
             ->where(function ($query) use ($asOfDate) {
                 $query->whereDate('transactions.post_date', '<=', $asOfDate)
                     ->orWhere(function ($q) use ($asOfDate) {
                         $q->whereNull('transactions.post_date')
-                            ->whereDate('transactions.date', '<=', $asOfDate);
+                            ->whereDate('transactions.transaction_date', '<=', $asOfDate);
                     });
             })
             ->selectRaw('
@@ -246,12 +246,12 @@ class GeneralLedgerReport extends BaseReport
             ->join('transactions', 'splits.transaction_id', '=', 'transactions.id')
             ->where('splits.account_id', $account->id)
             ->where('transactions.is_void', false)
-            ->whereNotNull('transactions.posted_at')
+            ->where('transactions.is_posted', true)
             ->where(function ($query) use ($startDate, $endDate) {
                 $query->whereBetween('transactions.post_date', [$startDate, $endDate])
                     ->orWhere(function ($q) use ($startDate, $endDate) {
                         $q->whereNull('transactions.post_date')
-                            ->whereBetween('transactions.date', [$startDate, $endDate]);
+                            ->whereBetween('transactions.transaction_date', [$startDate, $endDate]);
                     });
             })
             ->select([
@@ -260,13 +260,13 @@ class GeneralLedgerReport extends BaseReport
                 'splits.amount_num',
                 'splits.amount_denom',
                 'splits.memo',
-                'transactions.date as transaction_date',
+                'transactions.transaction_date',
                 'transactions.post_date',
                 'transactions.description',
                 'transactions.num',
             ])
             ->orderBy('transactions.post_date')
-            ->orderBy('transactions.date')
+            ->orderBy('transactions.transaction_date')
             ->orderBy('transactions.created_at')
             ->get();
     }

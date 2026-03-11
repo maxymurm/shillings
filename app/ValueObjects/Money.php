@@ -185,7 +185,7 @@ final class Money implements JsonSerializable, Stringable
             return (new self($newNumerator, $newDenominator, $this->currencyCode))->simplify();
         }
 
-        return new self($this->numerator, $this->denominator * $divisor, $this->currencyCode);
+        return (new self($this->numerator, $this->denominator * $divisor, $this->currencyCode))->simplify();
     }
 
     /**

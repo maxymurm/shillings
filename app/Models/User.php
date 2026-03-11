@@ -33,6 +33,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'company_id',
         'current_company_id',
     ];
 
@@ -65,6 +66,14 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return true; // All users can access admin panel for now
+    }
+
+    /**
+     * The primary company the user belongs to.
+     */
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
     }
 
     /**

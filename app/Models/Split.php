@@ -37,6 +37,7 @@ class Split extends Model
     protected $fillable = [
         'transaction_id',
         'account_id',
+        'tax_id',
         'amount_num',
         'amount_denom',
         'value_num',
@@ -74,6 +75,14 @@ class Split extends Model
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
+    }
+
+    /**
+     * The tax this split is associated with.
+     */
+    public function tax(): BelongsTo
+    {
+        return $this->belongsTo(Tax::class);
     }
 
     /**

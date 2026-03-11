@@ -6,10 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Company;
 use App\Queries\AccountRegisterQuery;
+use App\Reports\AccountsPayableAgingReport;
+use App\Reports\AccountsReceivableAgingReport;
 use App\Reports\BalanceSheetReport;
 use App\Reports\CashFlowReport;
+use App\Reports\EquityStatementReport;
 use App\Reports\GeneralLedgerReport;
 use App\Reports\IncomeStatementReport;
+use App\Reports\TaxSummaryReport;
 use App\Reports\TrialBalanceReport;
 use App\Services\ReportExportService;
 use Illuminate\Http\JsonResponse;
@@ -152,7 +156,9 @@ class ReportController extends Controller
         $data = $report->generate();
 
         return response()->json([
-            'data' => $report->toArray(),
+            'data' => $data['data'] ?? [],
+            'metadata' => $data['metadata'] ?? [],
+            'pagination' => $data['pagination'] ?? [],
         ]);
     }
 
@@ -225,7 +231,7 @@ class ReportController extends Controller
         $data = $report->generate();
 
         return response()->json([
-            'data' => $report->toArray(),
+            'data' => $data,
         ]);
     }
 
@@ -364,5 +370,176 @@ class ReportController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    /**
+     * Generate Accounts Receivable Aging report.
+     *
+     * @group Reports
+     */
+    public function arAging(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'company_id' => 'required|uuid|exists:companies,id',
+            'as_of_date' => 'nullable|date',
+        ]);
+
+        $company = Company::findOrFail($validated['company_id']);
+        $asOfDate = isset($validated['as_of_date'])
+            ? Carbon::parse($validated['as_of_date'])
+            : now();
+
+        $report = new AccountsReceivableAgingReport;
+        $report->forCompany($company)->forPeriod(null, $asOfDate);
+        $data = $report->generate();
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    /**
+     * Generate Accounts Payable Aging report.
+     *
+     * @group Reports
+     */
+    public function apAging(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'company_id' => 'required|uuid|exists:companies,id',
+            'as_of_date' => 'nullable|date',
+        ]);
+
+        $company = Company::findOrFail($validated['company_id']);
+        $asOfDate = isset($validated['as_of_date'])
+            ? Carbon::parse($validated['as_of_date'])
+            : now();
+
+        $report = new AccountsPayableAgingReport;
+        $report->forCompany($company)->forPeriod(null, $asOfDate);
+        $data = $report->generate();
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    /**
+     * Generate Tax Summary report.
+     *
+     * @group Reports
+     */
+    public function taxSummary(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'company_id' => 'required|uuid|exists:companies,id',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        $company = Company::findOrFail($validated['company_id']);
+        $startDate = isset($validated['start_date'])
+            ? Carbon::parse($validated['start_date'])
+            : now()->startOfMonth();
+        $endDate = isset($validated['end_date'])
+            ? Carbon::parse($validated['end_date'])
+            : now();
+
+        $report = new TaxSummaryReport;
+        $report->forCompany($company)->forPeriod($startDate, $endDate);
+        $data = $report->generate();
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    /**
+     * Generate Equity Statement report.
+     *
+     * @group Reports
+     */
+    public function equityStatement(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'company_id' => 'required|uuid|exists:companies,id',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        $company = Company::findOrFail($validated['company_id']);
+        $startDate = isset($validated['start_date'])
+            ? Carbon::parse($validated['start_date'])
+            : now()->startOfYear();
+        $endDate = isset($validated['end_date'])
+            ? Carbon::parse($validated['end_date'])
+            : now();
+
+        $report = new EquityStatementReport;
+        $report->forCompany($company)->forPeriod($startDate, $endDate);
+        $data = $report->generate();
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    /**
+     * Compare Income Statements across multiple periods.
+     *
+     * @group Reports
+     */
+    public function compareIncomeStatements(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'company_id' => 'required|uuid|exists:companies,id',
+            'periods' => 'required|array|min:2|max:4',
+            'periods.*.start_date' => 'required|date',
+            'periods.*.end_date' => 'required|date|after_or_equal:periods.*.start_date',
+        ]);
+
+        $company = Company::findOrFail($validated['company_id']);
+        $periods = [];
+
+        foreach ($validated['periods'] as $period) {
+            $startDate = Carbon::parse($period['start_date']);
+            $endDate = Carbon::parse($period['end_date']);
+
+            $report = new IncomeStatementReport;
+            $report->forCompany($company)->forPeriod($startDate, $endDate);
+            $report->generate();
+
+            $periods[] = [
+                'start_date' => $startDate->toDateString(),
+                'end_date' => $endDate->toDateString(),
+                'revenue' => $report->toArray()['total_revenue'] ?? 0,
+                'expenses' => $report->toArray()['total_expenses'] ?? 0,
+                'net_income' => $report->toArray()['net_income'] ?? 0,
+            ];
+        }
+
+        // Calculate variance between first and last period
+        $first = $periods[0];
+        $last = $periods[count($periods) - 1];
+
+        $revenueChange = $last['revenue'] - $first['revenue'];
+        $revenueChangePercent = $first['revenue'] != 0
+            ? ($revenueChange / $first['revenue']) * 100
+            : 0;
+
+        $expensesChange = $last['expenses'] - $first['expenses'];
+        $netIncomeChange = $last['net_income'] - $first['net_income'];
+
+        return response()->json([
+            'data' => [
+                'periods' => $periods,
+                'variance' => [
+                    'revenue_change' => $revenueChange,
+                    'revenue_change_percent' => round($revenueChangePercent, 2),
+                    'expenses_change' => $expensesChange,
+                    'net_income_change' => $netIncomeChange,
+                ],
+            ],
+        ]);
     }
 }

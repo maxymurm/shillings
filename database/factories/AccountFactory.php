@@ -26,7 +26,10 @@ class AccountFactory extends Factory
             'company_id' => Company::factory(),
             'parent_id' => null,
             'account_type_id' => AccountType::factory(),
-            'currency_id' => Currency::factory(),
+            'currency_id' => function () {
+                return Currency::where('code', 'KES')->first()?->id
+                    ?? Currency::factory()->kes()->create()->id;
+            },
             'code' => $this->faker->unique()->numerify('####'),
             'name' => $this->faker->words(3, true),
             'description' => $this->faker->optional()->sentence(),

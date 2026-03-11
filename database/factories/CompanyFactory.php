@@ -23,7 +23,10 @@ class CompanyFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'fiscal_year_start' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            'default_currency_id' => Currency::factory(),
+            'default_currency_id' => function () {
+                return Currency::where('code', 'KES')->first()?->id
+                    ?? Currency::factory()->kes()->create()->id;
+            },
             'settings' => [
                 'date_format' => 'Y-m-d',
                 'timezone' => 'UTC',

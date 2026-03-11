@@ -157,7 +157,7 @@ class AccountRegisterQuery
             ->join('transactions', 'splits.transaction_id', '=', 'transactions.id')
             ->where('splits.account_id', $this->account->id)
             ->where('transactions.is_void', false)
-            ->whereNotNull('transactions.posted_at')
+            ->where('transactions.is_posted', true)
             ->selectRaw('
                 SUM(CASE WHEN splits.action = ? THEN splits.amount_num ELSE -splits.amount_num END) as net_num,
                 MAX(splits.amount_denom) as denom
@@ -248,7 +248,7 @@ class AccountRegisterQuery
                 $q->whereDate('transactions.post_date', '>=', $this->startDate)
                     ->orWhere(function ($inner) {
                         $inner->whereNull('transactions.post_date')
-                            ->whereDate('transactions.date', '>=', $this->startDate);
+                            ->whereDate('transactions.transaction_date', '>=', $this->startDate);
                     });
             });
         }
@@ -258,7 +258,7 @@ class AccountRegisterQuery
                 $q->whereDate('transactions.post_date', '<=', $this->endDate)
                     ->orWhere(function ($inner) {
                         $inner->whereNull('transactions.post_date')
-                            ->whereDate('transactions.date', '<=', $this->endDate);
+                            ->whereDate('transactions.transaction_date', '<=', $this->endDate);
                     });
             });
         }
@@ -281,7 +281,7 @@ class AccountRegisterQuery
             'splits.amount_denom',
             'splits.memo',
             'splits.reconciled_state',
-            'transactions.date as transaction_date',
+            'transactions.transaction_date',
             'transactions.post_date',
             'transactions.description',
             'transactions.num',
@@ -296,14 +296,14 @@ class AccountRegisterQuery
                 'splits.amount_denom',
                 'splits.memo',
                 'splits.reconciled_state',
-                'transactions.date',
+                'transactions.transaction_date',
                 'transactions.post_date',
                 'transactions.description',
                 'transactions.num',
                 'transactions.is_void',
             ])
             ->orderBy('transactions.post_date', $this->sortDirection)
-            ->orderBy('transactions.date', $this->sortDirection)
+            ->orderBy('transactions.transaction_date', $this->sortDirection)
             ->orderBy('transactions.created_at', $this->sortDirection);
 
         return $query;
