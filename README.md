@@ -5,6 +5,15 @@ A modern, offline-first double-entry bookkeeping application built with Laravel 
 [![CI/CD Pipeline](https://github.com/maxymurm/shillings/actions/workflows/ci.yml/badge.svg)](https://github.com/maxymurm/shillings/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+## Ecosystem
+
+| Project | Description | Repo |
+|---------|-------------|------|
+| **Shillings** (this repo) | Laravel backend + Filament web admin | [maxymurm/shillings](https://github.com/maxymurm/shillings) |
+| **Shillings Mobile** | Ionic/Capacitor iOS + Android app | [maxymurm/shillings-mobile](https://github.com/maxymurm/shillings-mobile) |
+
+The mobile app consumes the same REST API as the web admin and shares offline sync logic. See [shillings-mobile](https://github.com/maxymurm/shillings-mobile) for native iOS/Android development.
+
 ## Features
 
 - 🔢 **Double-Entry Bookkeeping** - GnuCash-compatible precision arithmetic using fractions
@@ -12,7 +21,8 @@ A modern, offline-first double-entry bookkeeping application built with Laravel 
 - 💱 **Multi-Currency** - 50+ currencies with proper exchange rate handling
 - 📊 **Financial Reports** - Trial Balance, Balance Sheet, Income Statement, Cash Flow
 - 🔌 **REST API** - Full API with Sanctum authentication
-- 🌐 **Offline-First** - Works without internet (coming soon)
+- 🌐 **Offline-First PWA** - Works without internet, background sync, conflict resolution
+- 📱 **Mobile Apps** - Native iOS and Android via [Shillings Mobile](https://github.com/maxymurm/shillings-mobile)
 - 🎨 **Modern UI** - Beautiful Filament 4 admin panel with dark mode
 
 ## Tech Stack
