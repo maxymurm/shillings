@@ -130,6 +130,22 @@ export async function markTransactionConflict(localId, serverVersion) {
             serverVersion,
             conflictAt: new Date().toISOString(),
         });
+
+        // Push conflict to sync store so ConflictModal can display it
+        try {
+            const { useSyncStore } = await import('@/stores/sync');
+            const syncStore = useSyncStore();
+            syncStore.addConflict({
+                entity_type: 'transaction',
+                entity_id: pending.id ?? pending.localId,
+                local_data: pending,
+                server_data: serverVersion,
+                local_updated_at: pending.updatedAt,
+                server_updated_at: serverVersion.updated_at ?? new Date().toISOString(),
+            });
+        } catch {
+            // Store may not be available during background sync
+        }
     }
 }
 

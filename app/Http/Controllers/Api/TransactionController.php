@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use App\Services\TransactionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class TransactionController extends Controller
@@ -83,6 +84,7 @@ class TransactionController extends Controller
             'post_date' => ['required', 'date'],
             'currency_id' => ['required', 'uuid', 'exists:currencies,id'],
             'notes' => ['nullable', 'string'],
+            'receipt_image' => ['nullable', 'string'],
             'splits' => ['required', 'array', 'min:2'],
             'splits.*.account_id' => ['required', 'uuid', 'exists:accounts,id'],
             'splits.*.amount_num' => ['required', 'integer'],
@@ -93,6 +95,18 @@ class TransactionController extends Controller
 
         try {
             $transaction = $this->transactionService->create($validated);
+
+            // Handle receipt image upload
+            if (! empty($validated['receipt_image'])) {
+                $imageData = base64_decode($validated['receipt_image'], true);
+                if ($imageData !== false) {
+                    $filename = $transaction->id . '_' . time() . '.jpg';
+                    $path = "receipts/{$transaction->company_id}/{$filename}";
+                    Storage::disk('local')->put($path, $imageData);
+                    $transaction->update(['receipt_path' => $path]);
+                }
+            }
+
             $transaction->load(['splits.account', 'currency']);
 
             return response()->json([

@@ -120,7 +120,7 @@ class TaxService
             ->whereHas('document', function ($q) use ($company, $startDate, $endDate) {
                 $q->where('company_id', $company->id)
                     ->whereIn('status', ['sent', 'partial', 'paid', 'overdue'])
-                    ->whereBetween('issue_date', [$startDate, $endDate]);
+                    ->whereBetween('issued_at', [$startDate, $endDate]);
             })
             ->whereNotNull('tax_id')
             ->with(['tax', 'document'])
@@ -251,7 +251,7 @@ class TaxService
                 $q->where('company_id', $company->id)
                     ->whereIn('type', ['bill', 'credit_note'])
                     ->whereIn('status', ['sent', 'partial', 'paid', 'overdue'])
-                    ->whereBetween('issue_date', [$startDate, $endDate]);
+                    ->whereBetween('issued_at', [$startDate, $endDate]);
             })
             ->whereHas('tax', fn ($q) => $q->where('is_recoverable', true))
             ->get();

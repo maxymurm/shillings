@@ -37,6 +37,7 @@ class Transaction extends Model
         'void_reason',
         'voided_at',
         'voided_by_id',
+        'receipt_path',
         'created_by_id',
         'reverses_id',
         'reversed_by_id',

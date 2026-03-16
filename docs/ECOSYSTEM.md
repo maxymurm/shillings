@@ -52,6 +52,7 @@ All clients share the same REST API authenticated via Laravel Sanctum tokens.
 - **Login**: `POST /api/auth/login` → `{ token, user }`
 - **Logout**: `POST /api/auth/logout`
 - **Current User**: `GET /api/user` → `{ ...user, companies: [...] }`
+- **Biometric (mobile only)**: Restores the stored Sanctum token from Capacitor Preferences (`auth_token`). Does NOT make a new `/auth/login` request — it calls `authStore.init()` to rehydrate the session from the saved token.
 
 ### Multi-Organisation
 Every API request includes:
