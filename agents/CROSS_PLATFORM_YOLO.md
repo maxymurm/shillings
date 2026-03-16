@@ -25,7 +25,9 @@ Also read:
 Then execute ALL phases top to bottom in YOLO mode:
   - No user confirmation needed for any decision
   - Commit + push after EVERY phase (paired commits: shillings/develop + shillings-mobile/main)
-  - Create GitHub issues for BOTH boards when scoping new work
+  - **CLOSE the GitHub issue(s) listed in each task as soon as you push that phase**
+    - Use: gh issue close <NUMBER> --repo maxymurm/shillings (or shillings-mobile)
+    - Add a comment with the commit SHA when closing
   - Run backend tests (php artisan test) after each backend change — all 259 must remain green
   - Update this file's PROGRESS section as you complete each phase
   - Tell me what you finished and what blocked you when done
@@ -77,10 +79,35 @@ Go.
 
 ---
 
+## GitHub Issue Reference
+
+| Task | Backend Issue | Mobile Issue |
+|------|--------------|-------------|
+| A1 — Tax Summary bug fix | [#132](https://github.com/maxymurm/shillings/issues/132) | N/A |
+| A2 — Conflict UI + sync tests | [#134](https://github.com/maxymurm/shillings/issues/134) | [#106](https://github.com/maxymurm/shillings-mobile/issues/106) |
+| A3 — Biometric login | N/A | [#107](https://github.com/maxymurm/shillings-mobile/issues/107) |
+| A4 — Account Register filters | N/A (already exists) | [#108](https://github.com/maxymurm/shillings-mobile/issues/108) |
+| A5 — Receipt capture | [#133](https://github.com/maxymurm/shillings/issues/133) | [#109](https://github.com/maxymurm/shillings-mobile/issues/109) |
+| B1 — Bulk API endpoint | [#135](https://github.com/maxymurm/shillings/issues/135) | N/A |
+| B2 — Filament bulk actions | [#136](https://github.com/maxymurm/shillings/issues/136) | N/A |
+| B3 — Mobile bulk select | N/A | [#110](https://github.com/maxymurm/shillings-mobile/issues/110) |
+| C1 — Report text search (backend) | [#137](https://github.com/maxymurm/shillings/issues/137) | N/A |
+| C2 — Report filter bar (mobile) | N/A | [#111](https://github.com/maxymurm/shillings-mobile/issues/111) |
+| D1 — Fill backend test stubs | [#138](https://github.com/maxymurm/shillings/issues/138) | N/A |
+| D2 — Mobile Vitest coverage | N/A | [#112](https://github.com/maxymurm/shillings-mobile/issues/112) |
+| D3 — Cypress E2E scaffold | N/A | [#113](https://github.com/maxymurm/shillings-mobile/issues/113) |
+| E1 — Backend performance | [#139](https://github.com/maxymurm/shillings/issues/139) | N/A |
+| E2 — Mobile performance | N/A | [#114](https://github.com/maxymurm/shillings-mobile/issues/114) |
+| F1 — Tax Summary Filament page | [#140](https://github.com/maxymurm/shillings/issues/140) | N/A |
+| F2 — Tax Summary mobile view | N/A | [#115](https://github.com/maxymurm/shillings-mobile/issues/115) |
+
+---
+
 ## PHASE A — Quick Wins & Bug Fixes
 **Paired commits required. Both tasks must be done before committing.**
 
 ### A1 — Fix Tax Summary Column Bug [WEB ONLY]
+**Close on completion:** `gh issue close 132 --repo maxymurm/shillings`
 
 **File:** `app/Services/TaxService.php`
 **Bug:** `getTaxSummary()` queries `whereBetween('issue_date', ...)` but the Document
@@ -104,6 +131,7 @@ noting the correct tax summary endpoint signature: `GET /api/taxes/summary?start
 ---
 
 ### A2 — Wire Conflict Resolution UI [MOBILE ONLY]
+**Close on completion:** `gh issue close 106 --repo maxymurm/shillings-mobile` + `gh issue close 134 --repo maxymurm/shillings` (backend tests)
 
 **Problem:** `ConflictModal.vue` exists but is mounted nowhere, so users never see conflicts.
 
@@ -128,6 +156,7 @@ noting the correct tax summary endpoint signature: `GET /api/taxes/summary?start
 ---
 
 ### A3 — Implement Biometric Login [MOBILE ONLY]
+**Close on completion:** `gh issue close 107 --repo maxymurm/shillings-mobile`
 
 **File:** `src/views/auth/LoginPage.vue`
 **Problem:** `loginWithBiometric()` function exists but is a stub with only a comment.
@@ -178,6 +207,7 @@ and does not make a new `/auth/login` request.
 ---
 
 ### A4 — Add Search + Date Filters to Mobile Account Register [MOBILE ONLY]
+**Close on completion:** `gh issue close 108 --repo maxymurm/shillings-mobile`
 
 **File:** `src/views/reports/AccountRegisterPage.vue`
 **Problem:** The backend `GET /accounts/{id}/transactions` supports `search`, `start_date`,
@@ -245,7 +275,8 @@ test `tests/Feature/Api/AdvancedReportApiTest.php` (currently empty stub) — ad
 
 ---
 
-### A5 — Wire Receipt Capture to Transaction Forms [MOBILE ONLY]
+### A5 — Wire Receipt Capture to Transaction Forms
+**Close on completion:** `gh issue close 109 --repo maxymurm/shillings-mobile` + `gh issue close 133 --repo maxymurm/shillings`
 
 **File:** `src/services/camera.ts` (exists), target: transaction create/edit views
 **Problem:** `captureReceipt()` and `pickFromGallery()` exist but no view uses them.
@@ -315,6 +346,7 @@ Add `receipt_path` to `TransactionController` store/update fillable handling. Ad
 ## PHASE B — Bulk Transaction Operations
 
 ### B1 — Backend Bulk Endpoint [WEB]
+**Close on completion:** `gh issue close 135 --repo maxymurm/shillings`
 
 **No bulk operations exist at all.** Add `POST /api/transactions/bulk` endpoint.
 
@@ -365,6 +397,7 @@ Add tests to `tests/Feature/Api/TransactionTest.php`:
 - `test_bulk_action_max_100_transactions()`
 
 ### B2 — Filament Bulk Actions [WEB]
+**Close on completion:** `gh issue close 136 --repo maxymurm/shillings`
 
 In `app/Filament/Resources/TransactionResource/Pages/ListTransactions.php`
 (or `TransactionResource.php` table definition), add bulk actions:
@@ -392,6 +425,7 @@ In `app/Filament/Resources/TransactionResource/Pages/ListTransactions.php`
 ```
 
 ### B3 — Mobile Bulk Select [MOBILE]
+**Close on completion:** `gh issue close 110 --repo maxymurm/shillings-mobile`
 
 In `src/views/transactions/TransactionListPage.vue` (or equivalent):
 1. Add a long-press handler (`@long-press` or `@touchstart` with timer) that enters
@@ -407,6 +441,7 @@ In `src/views/transactions/TransactionListPage.vue` (or equivalent):
 ## PHASE C — Advanced Report Filters (Backend + Mobile)
 
 ### C1 — Add Text Search to Summary Reports [WEB]
+**Close on completion:** `gh issue close 137 --repo maxymurm/shillings`
 
 Currently `trial-balance`, `balance-sheet`, `income-statement` have no account-level
 text search. Add optional `search` param to each:
@@ -431,6 +466,7 @@ Add tests to `AdvancedReportApiTest.php`:
 - `test_income_statement_date_preset_ytd()`
 
 ### C2 — Report Filters in Mobile Reports [MOBILE]
+**Close on completion:** `gh issue close 111 --repo maxymurm/shillings-mobile`
 
 For each report page (`TrialBalancePage.vue`, `IncomeStatementPage.vue`, etc.):
 1. Add a collapsible filter bar toggled by a filter icon button in the toolbar.
@@ -455,6 +491,7 @@ export async function fetchTrialBalance(
 ## PHASE D — Test Coverage (Both Projects)
 
 ### D1 — Fill Empty Backend Test Stubs [WEB]
+**Close on completion:** `gh issue close 138 --repo maxymurm/shillings`
 
 These test files exist but are **empty** (only `<?php`). Fill them all:
 
@@ -491,6 +528,7 @@ These test files exist but are **empty** (only `<?php`). Fill them all:
 After filling stubs, run `php artisan test` — all must pass.
 
 ### D2 — Mobile Vitest Coverage [MOBILE]
+**Close on completion:** `gh issue close 112 --repo maxymurm/shillings-mobile`
 
 Expand existing test files. In `src/tests/`:
 
@@ -510,6 +548,7 @@ Expand existing test files. In `src/tests/`:
 - `test('OrgSwitcher does not open picker with single org')`
 
 ### D3 — E2E Test Scaffolding [MOBILE ONLY]
+**Close on completion:** `gh issue close 113 --repo maxymurm/shillings-mobile`
 
 Set up Cypress for mobile E2E testing against the Ionic app in browser mode:
 
@@ -542,6 +581,7 @@ Add `"cy:open": "cypress open"` and `"cy:run": "cypress run"` to `package.json` 
 ## PHASE E — Performance & Optimization
 
 ### E1 — Backend Query Optimization [WEB]
+**Close on completion:** `gh issue close 139 --repo maxymurm/shillings`
 
 1. **Identify N+1 queries:** In `TransactionController::index()` and `AccountController::index()`,
    ensure eager loading:
@@ -572,6 +612,7 @@ Add `"cy:open": "cypress open"` and `"cy:run": "cypress run"` to `package.json` 
    - `GET /accounts` with 100 accounts responds in < 300ms
 
 ### E2 — Mobile Bundle & Runtime Performance [MOBILE]
+**Close on completion:** `gh issue close 114 --repo maxymurm/shillings-mobile`
 
 1. **Lazy-load heavy pages** — in `src/router/index.ts`, verify all page imports use
    `() => import(...)` (dynamic imports). Fix any that use static imports.
@@ -599,6 +640,7 @@ Add `"cy:open": "cypress open"` and `"cy:run": "cypress run"` to `package.json` 
 The tax summary API exists but has no Filament UI report page and no mobile view.
 
 ### F1 — Tax Summary Filament Report Page [WEB ONLY — exempt from parity]
+**Close on completion:** `gh issue close 140 --repo maxymurm/shillings`
 
 Create `app/Filament/Pages/TaxSummaryReportPage.php`:
 - Date range picker (from/to) — defaults to current month
@@ -607,6 +649,7 @@ Create `app/Filament/Pages/TaxSummaryReportPage.php`:
 - Export button calling `POST /api/reports/export` with `report: tax-summary`
 
 ### F2 — Tax Summary in Mobile Reports [MOBILE]
+**Close on completion:** `gh issue close 115 --repo maxymurm/shillings-mobile`
 
 Create `src/views/reports/TaxSummaryPage.vue`:
 - Call `GET /api/taxes/summary?start_date=&end_date=`
