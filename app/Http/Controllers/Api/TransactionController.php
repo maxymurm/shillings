@@ -9,6 +9,7 @@ use App\Services\TransactionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class TransactionController extends Controller
@@ -358,5 +359,39 @@ class TransactionController extends Controller
             'credits' => $credits,
             'difference' => abs($debits - $credits),
         ]);
+    }
+
+    /**
+     * Bulk post/void/delete transactions.
+     */
+    public function bulk(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'action' => ['required', Rule::in(['post', 'void', 'delete'])],
+            'transaction_ids' => ['required', 'array', 'min:1', 'max:100'],
+            'transaction_ids.*' => ['uuid', 'exists:transactions,id'],
+        ]);
+
+        $transactions = Transaction::whereIn('id', $validated['transaction_ids'])->get();
+
+        $results = ['success' => [], 'failed' => []];
+
+        foreach ($transactions as $txn) {
+            try {
+                match ($validated['action']) {
+                    'post' => $this->transactionService->post($txn),
+                    'void' => $this->transactionService->void($txn, 'Bulk void'),
+                    'delete' => (function () use ($txn) {
+                        $txn->splits()->delete();
+                        $txn->delete();
+                    })(),
+                };
+                $results['success'][] = $txn->id;
+            } catch (\Throwable $e) {
+                $results['failed'][] = ['id' => $txn->id, 'error' => $e->getMessage()];
+            }
+        }
+
+        return response()->json($results);
     }
 }

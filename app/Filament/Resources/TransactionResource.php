@@ -519,6 +519,30 @@ class TransactionResource extends Resource
                                 ->send();
                         }),
 
+                    BulkAction::make('void_selected')
+                        ->label('Void Selected')
+                        ->icon('heroicon-o-x-circle')
+                        ->color('warning')
+                        ->requiresConfirmation()
+                        ->action(function (Collection $records, TransactionService $service) {
+                            $voided = 0;
+                            $skipped = 0;
+
+                            foreach ($records as $record) {
+                                if ($record->is_posted && ! $record->is_void) {
+                                    $service->void($record, 'Bulk void');
+                                    $voided++;
+                                } else {
+                                    $skipped++;
+                                }
+                            }
+
+                            Notification::make()
+                                ->title("Voided {$voided} transactions" . ($skipped > 0 ? ", skipped {$skipped}" : ''))
+                                ->success()
+                                ->send();
+                        }),
+
                     DeleteBulkAction::make()
                         ->before(function (Collection $records) {
                             // Filter out posted/void transactions

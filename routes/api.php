@@ -59,6 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Transactions
     Route::prefix('transactions')->group(function () {
         Route::get('/', [TransactionController::class, 'index'])->middleware('ability:transactions:read');
+        Route::post('/bulk', [TransactionController::class, 'bulk'])->middleware('ability:transactions:create');
         Route::get('/{transaction}', [TransactionController::class, 'show'])->middleware('ability:transactions:read');
         Route::post('/', [TransactionController::class, 'store'])->middleware('ability:transactions:create');
         Route::post('/simple', [TransactionController::class, 'storeSimple'])->middleware('ability:transactions:create');
