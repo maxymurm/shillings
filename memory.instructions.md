@@ -5,6 +5,19 @@
 
 ---
 
+## 🔁 PARALLEL PARITY RULE — MANDATORY (Effective 2026-03-16)
+
+**Every change in this project MUST have a corresponding change in shillings-mobile in the same session.**
+- Features, bug fixes, terminology changes, docs → apply to both projects
+- GitHub issues scoped for one project → create equivalent issues for the other
+- Autonomous prompts MUST include tasks for both projects
+- Commits must be paired: one in `develop`, one in `shillings-mobile/main`
+- Exception: platform-specific features (Filament admin, biometrics) are exempt but must be noted
+
+**Mobile project:** `c:\Users\maxmm\shillings-mobile` | `main` branch | https://github.com/maxymurm/shillings-mobile
+
+---
+
 ## 🎯 WHERE WE LEFT OFF
 
 ### Project Status at a Glance

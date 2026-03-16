@@ -22,6 +22,22 @@ When a user says:
 3. ✅ Ask user for required information
 4. ✅ Follow the appropriate workflow below
 
+### 🔁 Parallel Parity Rule (MANDATORY — Effective 2026-03-16)
+
+**Every task, feature, fix, or issue scoped for this project MUST be simultaneously scoped and implemented for `shillings-mobile`.**
+
+- Issues created here → equivalent issues created on https://github.com/users/maxymurm/projects/9
+- Features implemented in web → same feature implemented in mobile in the same session
+- Autonomous prompts → must include tasks for BOTH projects
+- Commits → must be paired: `shillings/develop` + `shillings-mobile/main`
+- Terminology/docs/memory → keep in sync across both repos
+- Exceptions (web-only by design): Filament admin CRUD, OFX/CSV import, tax setup, PDF generation, reconciliation
+- Exceptions (mobile-only by design): biometrics, native camera, haptics, APNs/FCM push, app store submission
+
+**Mobile project:** `c:\Users\maxmm\shillings-mobile` | https://github.com/maxymurm/shillings-mobile | Board: https://github.com/users/maxymurm/projects/9
+
+---
+
 ### 🎯 Issue Scoping Workflow (PRIMARY)
 
 **When user says: "Scope it out and create issues"**
@@ -34,10 +50,10 @@ This is the **primary workflow** for creating ALL issues (features, bugs, epics,
 4. **Automatic execution:**
    - Create planning documents
    - Create/configure project board (if needed)
-   - Create all GitHub issues with proper labels
+   - Create all GitHub issues with proper labels on **both** project boards
    - Link dependencies
    - Auto-add issues to board
-   - Commit planning docs
+   - Commit planning docs to **both** repos
    - Report completion
 
 **Complete documentation:** See [ISSUE_SCOPING_WORKFLOW.md](./ISSUE_SCOPING_WORKFLOW.md)

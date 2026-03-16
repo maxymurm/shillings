@@ -13,6 +13,38 @@ projectName: 'Shillings - Offline-First Accounting'
 
 ---
 
+## 🔁 PARALLEL PARITY RULE — MANDATORY (Effective 2026-03-16)
+
+> **This is the most important standing instruction. It overrides all previous habits.**
+
+**Every change made to one project MUST be simultaneously applied to the other.**
+
+### The Rule
+- Feature added to **web/backend** → same feature must be implemented in **mobile** in the same session
+- Bug fixed in **backend** → check if same bug exists in **mobile**, fix it there too
+- Feature added to **mobile** → check if the same belongs in **web**, implement if applicable
+- **GitHub Issues** scoped for one project → equivalent issues MUST be created for the other project in the same session
+- **Autonomous prompts / YOLO execution plans** MUST always include tasks for BOTH projects
+- **Commits** must be paired: backend commit + mobile commit in every session
+- **Terminology changes** (e.g. Company → Organisation) must be applied to both projects
+- **Documentation** (README, memory files, agent docs) must be kept in sync across both projects
+
+### What "Same Feature" Means
+- Web gets a new page → Mobile gets the equivalent page/flow
+- Web gets a UI redesign → Mobile gets the equivalent design update
+- Backend API gains an endpoint → Mobile service layer gains the matching API call
+- Web gets a bug fix → Mobile is checked for the same bug and fixed if present
+- Issues are created in GitHub → Issues are created for BOTH project boards
+
+### Exception
+Features that are **explicitly web-only or mobile-only by design** (e.g. Filament admin CRUD, file import/export on web; biometrics, native camera on mobile) are exempt, but this must be explicitly noted in the task/issue.
+
+### Projects
+- **Backend + Web:** `c:\Users\maxmm\Herd\shillings` → `develop` branch → https://github.com/maxymurm/shillings
+- **Mobile:** `c:\Users\maxmm\shillings-mobile` → `main` branch → https://github.com/maxymurm/shillings-mobile
+
+---
+
 ## 🔗 Important Links (REMEMBER THESE)
 
 - **GitHub Repo:** https://github.com/maxymurm/shillings
@@ -165,7 +197,9 @@ COMPLETED - code and tests done, issues CLOSED):**
 - Cloud-only deployment (no Docker/K8s)
 - Laravel Forge for deployment
 - Multi-company support
-- Mobile as subset of web features initially
+- **Parallel parity across web and mobile — NOT a subset, both platforms are equal citizens**
+- YOLO/autonomous execution mode preferred
+- Conventional commits, always push after each logical group
 
 ---
 
@@ -224,5 +258,7 @@ $money->getCurrencyCode();
 
 ---
 
-**Memory Updated:** 2026-02-13 04:00  
+**Memory Updated:** 2026-03-16  
+*Parallel Parity Rule established (2026-03-16): All future work must target both web and mobile simultaneously. Org switcher and enhanced Account Register ported to mobile. Feature Parity Matrix and Ecosystem Guide added to docs.*
+
 *Phase 16 (Mobile & Offline Sync) COMPLETE! 100% tests passing (259/259, 814 assertions). All 16 phases fully implemented. All 128 GitHub issues closed. PWA with offline-first architecture, IndexedDB storage via Dexie.js, background sync with exponential backoff, conflict resolution (3 strategies), push notifications, mobile receipt capture, mobile-optimized Filament with SPA mode.*
