@@ -14,6 +14,11 @@ A modern, offline-first double-entry bookkeeping application built with Laravel 
 
 The mobile app consumes the same REST API as the web admin and shares offline sync logic. See [shillings-mobile](https://github.com/maxymurm/shillings-mobile) for native iOS/Android development.
 
+### Cross-Platform Documentation
+
+- **[ECOSYSTEM.md](docs/ECOSYSTEM.md)** — Unified development guide covering all platforms, shared code, API contracts, and workflows
+- **[FEATURE_PARITY_MATRIX.md](docs/FEATURE_PARITY_MATRIX.md)** — Feature comparison across Web, PWA, and Mobile platforms
+
 ## Features
 
 - 🔢 **Double-Entry Bookkeeping** - GnuCash-compatible precision arithmetic using fractions
