@@ -152,7 +152,7 @@ class CashFlowReport extends BaseReport
                 $query->whereBetween('transactions.post_date', [$startDate, $endDate])
                     ->orWhere(function ($q) use ($startDate, $endDate) {
                         $q->whereNull('transactions.post_date')
-                            ->whereBetween('transactions.date', [$startDate, $endDate]);
+                            ->whereBetween('transactions.transaction_date', [$startDate, $endDate]);
                     });
             })
             ->selectRaw('
@@ -332,7 +332,7 @@ class CashFlowReport extends BaseReport
                 $query->whereDate('transactions.post_date', '<=', $asOfDate)
                     ->orWhere(function ($q) use ($asOfDate) {
                         $q->whereNull('transactions.post_date')
-                            ->whereDate('transactions.date', '<=', $asOfDate);
+                            ->whereDate('transactions.transaction_date', '<=', $asOfDate);
                     });
             })
             ->selectRaw('

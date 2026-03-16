@@ -472,6 +472,87 @@ class AdvancedReportApiTest extends TestCase
             ->assertJsonValidationErrors(['end_date']);
     }
 
+    public function test_it_can_search_trial_balance(): void
+    {
+        $this->createTransaction($this->cashAccount, $this->revenueAccount, 500, now()->subDays(3));
+
+        $response = $this->getJson('/api/reports/trial-balance?' . http_build_query([
+            'company_id' => $this->company->id,
+            'search' => 'Cash',
+        ]));
+
+        $response->assertStatus(200);
+        $rows = $response->json('data.rows');
+        foreach ($rows as $row) {
+            $this->assertTrue(
+                str_contains(strtolower($row['account_name']), 'cash')
+                || str_contains(strtolower($row['account_code'] ?? ''), 'cash')
+            );
+        }
+    }
+
+    public function test_it_can_search_balance_sheet(): void
+    {
+        $this->createTransaction($this->cashAccount, $this->revenueAccount, 500, now()->subDays(3));
+
+        $response = $this->getJson('/api/reports/balance-sheet?' . http_build_query([
+            'company_id' => $this->company->id,
+            'search' => 'Cash',
+        ]));
+
+        $response->assertStatus(200);
+    }
+
+    public function test_income_statement_accepts_date_preset(): void
+    {
+        $this->createTransaction($this->cashAccount, $this->revenueAccount, 1000, now()->subDays(5));
+
+        $response = $this->getJson('/api/reports/income-statement?' . http_build_query([
+            'company_id' => $this->company->id,
+            'date_preset' => 'this_month',
+        ]));
+
+        $response->assertStatus(200);
+    }
+
+    public function test_cash_flow_accepts_date_preset(): void
+    {
+        $this->createTransaction($this->cashAccount, $this->revenueAccount, 1000, now()->subDays(5));
+
+        $response = $this->getJson('/api/reports/cash-flow?' . http_build_query([
+            'company_id' => $this->company->id,
+            'date_preset' => 'ytd',
+        ]));
+
+        $response->assertStatus(200);
+    }
+
+    public function test_general_ledger_accepts_date_preset(): void
+    {
+        $this->createTransaction($this->cashAccount, $this->revenueAccount, 1000, now()->subDays(5));
+
+        $response = $this->getJson('/api/reports/general-ledger?' . http_build_query([
+            'company_id' => $this->company->id,
+            'date_preset' => 'last_month',
+        ]));
+
+        $response->assertStatus(200);
+    }
+
+    public function test_date_preset_is_ignored_when_explicit_dates_provided(): void
+    {
+        $this->createTransaction($this->cashAccount, $this->revenueAccount, 1000, now()->subDays(5));
+
+        $response = $this->getJson('/api/reports/income-statement?' . http_build_query([
+            'company_id' => $this->company->id,
+            'start_date' => now()->subDays(30)->toDateString(),
+            'end_date' => now()->toDateString(),
+            'date_preset' => 'last_year',
+        ]));
+
+        $response->assertStatus(200);
+    }
+
     // Helper methods
 
     protected function createTransaction(

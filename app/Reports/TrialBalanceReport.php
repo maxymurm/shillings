@@ -132,7 +132,7 @@ class TrialBalanceReport extends BaseReport
                 $query->whereDate('transactions.post_date', '<=', $endDate)
                     ->orWhere(function ($q) use ($endDate) {
                         $q->whereNull('transactions.post_date')
-                            ->whereDate('transactions.date', '<=', $endDate);
+                            ->whereDate('transactions.transaction_date', '<=', $endDate);
                     });
             })
             ->selectRaw('

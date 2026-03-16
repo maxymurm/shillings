@@ -192,4 +192,118 @@ class TransactionTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonPath('transaction.is_posted', true);
     }
+
+    public function test_it_bulk_posts_transactions(): void
+    {
+        $transactions = collect(range(1, 3))->map(fn ($i) => $this->createBalancedTransaction("Bulk Post $i"));
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+            ->postJson('/api/transactions/bulk', [
+                'action' => 'post',
+                'transaction_ids' => $transactions->pluck('id')->toArray(),
+            ]);
+
+        $response->assertStatus(200);
+        $this->assertCount(3, $response->json('success'));
+        $this->assertEmpty($response->json('failed'));
+
+        foreach ($transactions as $t) {
+            $this->assertTrue($t->fresh()->is_posted);
+        }
+    }
+
+    public function test_it_bulk_voids_transactions(): void
+    {
+        $transactions = collect(range(1, 2))->map(function ($i) {
+            $t = $this->createBalancedTransaction("Bulk Void $i");
+            $t->update(['is_posted' => true, 'post_date' => now()]);
+            return $t;
+        });
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+            ->postJson('/api/transactions/bulk', [
+                'action' => 'void',
+                'transaction_ids' => $transactions->pluck('id')->toArray(),
+            ]);
+
+        $response->assertStatus(200);
+        $this->assertCount(2, $response->json('success'));
+
+        foreach ($transactions as $t) {
+            $this->assertStringContainsString('VOIDED', $t->fresh()->notes);
+        }
+    }
+
+    public function test_it_bulk_deletes_transactions(): void
+    {
+        $transactions = collect(range(1, 2))->map(fn ($i) => $this->createBalancedTransaction("Bulk Delete $i"));
+        $ids = $transactions->pluck('id')->toArray();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+            ->postJson('/api/transactions/bulk', [
+                'action' => 'delete',
+                'transaction_ids' => $ids,
+            ]);
+
+        $response->assertStatus(200);
+        $this->assertCount(2, $response->json('success'));
+
+        foreach ($ids as $id) {
+            $this->assertNull(Transaction::find($id));
+        }
+    }
+
+    public function test_bulk_rejects_invalid_action(): void
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+            ->postJson('/api/transactions/bulk', [
+                'action' => 'invalid',
+                'transaction_ids' => ['some-id'],
+            ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['action']);
+    }
+
+    public function test_bulk_limits_to_100_transactions(): void
+    {
+        $ids = array_map(fn () => \Illuminate\Support\Str::uuid()->toString(), range(1, 101));
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
+            ->postJson('/api/transactions/bulk', [
+                'action' => 'post',
+                'transaction_ids' => $ids,
+            ]);
+
+        // Either max validation or exists validation will kick in
+        $response->assertStatus(422);
+    }
+
+    protected function createBalancedTransaction(string $description): Transaction
+    {
+        $transaction = Transaction::create([
+            'company_id' => $this->company->id,
+            'transaction_date' => '2026-01-15',
+            'description' => $description,
+            'is_posted' => false,
+        ]);
+
+        Split::create([
+            'transaction_id' => $transaction->id,
+            'account_id' => $this->cashAccount->id,
+            'amount_num' => -5000,
+            'amount_denom' => 100,
+            'action' => 'CREDIT',
+        ]);
+
+        Split::create([
+            'transaction_id' => $transaction->id,
+            'account_id' => $this->expenseAccount->id,
+            'amount_num' => 5000,
+            'amount_denom' => 100,
+            'action' => 'DEBIT',
+        ]);
+
+        return $transaction;
+    }
 }

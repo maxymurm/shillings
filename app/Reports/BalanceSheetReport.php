@@ -190,7 +190,7 @@ class BalanceSheetReport extends BaseReport
                 $query->whereDate('transactions.post_date', '<=', $asOfDate)
                     ->orWhere(function ($q) use ($asOfDate) {
                         $q->whereNull('transactions.post_date')
-                            ->whereDate('transactions.date', '<=', $asOfDate);
+                            ->whereDate('transactions.transaction_date', '<=', $asOfDate);
                     });
             })
             ->selectRaw('
@@ -226,7 +226,7 @@ class BalanceSheetReport extends BaseReport
                 $query->whereDate('transactions.post_date', '<=', $asOfDate)
                     ->orWhere(function ($q) use ($asOfDate) {
                         $q->whereNull('transactions.post_date')
-                            ->whereDate('transactions.date', '<=', $asOfDate);
+                            ->whereDate('transactions.transaction_date', '<=', $asOfDate);
                     });
             })
             ->selectRaw('

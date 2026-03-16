@@ -166,8 +166,8 @@ class IncomeStatementReport extends BaseReport
                         ->whereDate('transactions.post_date', '<=', $endDate);
                 })->orWhere(function ($q) use ($startDate, $endDate) {
                     $q->whereNull('transactions.post_date')
-                        ->whereDate('transactions.date', '>=', $startDate)
-                        ->whereDate('transactions.date', '<=', $endDate);
+                        ->whereDate('transactions.transaction_date', '>=', $startDate)
+                        ->whereDate('transactions.transaction_date', '<=', $endDate);
                 });
             })
             ->selectRaw('
