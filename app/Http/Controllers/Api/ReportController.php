@@ -27,6 +27,23 @@ class ReportController extends Controller
         protected ReportExportService $exportService
     ) {}
 
+    private function resolvePreset(?string $preset): ?array
+    {
+        if (! $preset) {
+            return null;
+        }
+
+        return match ($preset) {
+            'this_month' => [now()->startOfMonth(), now()->endOfMonth()],
+            'last_month' => [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()],
+            'this_quarter' => [now()->startOfQuarter(), now()->endOfQuarter()],
+            'last_quarter' => [now()->subQuarter()->startOfQuarter(), now()->subQuarter()->endOfQuarter()],
+            'ytd' => [now()->startOfYear(), now()],
+            'last_year' => [now()->subYear()->startOfYear(), now()->subYear()->endOfYear()],
+            default => null,
+        };
+    }
+
     /**
      * List available reports.
      *
@@ -88,6 +105,7 @@ class ReportController extends Controller
         $validated = $request->validate([
             'company_id' => 'required|uuid|exists:companies,id',
             'as_of_date' => 'nullable|date',
+            'search' => 'nullable|string|max:255',
         ]);
 
         $company = Company::findOrFail($validated['company_id']);
@@ -99,8 +117,18 @@ class ReportController extends Controller
         $report->forCompany($company)->forPeriod(null, $asOfDate);
         $data = $report->generate();
 
+        $result = $report->toArray();
+
+        if (! empty($validated['search'])) {
+            $search = strtolower($validated['search']);
+            $result['rows'] = array_values(array_filter($result['rows'] ?? [], function ($row) use ($search) {
+                return str_contains(strtolower($row['account_name'] ?? ''), $search)
+                    || str_contains(strtolower($row['account_code'] ?? ''), $search);
+            }));
+        }
+
         return response()->json([
-            'data' => $report->toArray(),
+            'data' => $result,
         ]);
     }
 
@@ -114,6 +142,7 @@ class ReportController extends Controller
         $validated = $request->validate([
             'company_id' => 'required|uuid|exists:companies,id',
             'as_of_date' => 'nullable|date',
+            'search' => 'nullable|string|max:255',
         ]);
 
         $company = Company::findOrFail($validated['company_id']);
@@ -125,8 +154,23 @@ class ReportController extends Controller
         $report->forCompany($company)->forPeriod(null, $asOfDate);
         $data = $report->generate();
 
+        $result = $report->toArray();
+
+        if (! empty($validated['search'])) {
+            $search = strtolower($validated['search']);
+            foreach (['assets', 'liabilities', 'equity'] as $section) {
+                if (isset($result[$section]['accounts'])) {
+                    $result[$section]['accounts'] = array_values(array_filter(
+                        $result[$section]['accounts'],
+                        fn ($row) => str_contains(strtolower($row['account_name'] ?? ''), $search)
+                            || str_contains(strtolower($row['account_code'] ?? ''), $search)
+                    ));
+                }
+            }
+        }
+
         return response()->json([
-            'data' => $report->toArray(),
+            'data' => $result,
         ]);
     }
 
@@ -141,15 +185,21 @@ class ReportController extends Controller
             'company_id' => 'required|uuid|exists:companies,id',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
+            'date_preset' => 'nullable|string|in:this_month,last_month,this_quarter,last_quarter,ytd,last_year',
         ]);
 
         $company = Company::findOrFail($validated['company_id']);
-        $startDate = isset($validated['start_date'])
-            ? Carbon::parse($validated['start_date'])
-            : now()->startOfYear();
-        $endDate = isset($validated['end_date'])
-            ? Carbon::parse($validated['end_date'])
-            : now();
+
+        if (! empty($validated['date_preset']) && empty($validated['start_date']) && empty($validated['end_date'])) {
+            [$startDate, $endDate] = $this->resolvePreset($validated['date_preset']);
+        } else {
+            $startDate = isset($validated['start_date'])
+                ? Carbon::parse($validated['start_date'])
+                : now()->startOfYear();
+            $endDate = isset($validated['end_date'])
+                ? Carbon::parse($validated['end_date'])
+                : now();
+        }
 
         $report = new IncomeStatementReport;
         $report->forCompany($company)->forPeriod($startDate, $endDate);
@@ -173,15 +223,21 @@ class ReportController extends Controller
             'company_id' => 'required|uuid|exists:companies,id',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
+            'date_preset' => 'nullable|string|in:this_month,last_month,this_quarter,last_quarter,ytd,last_year',
         ]);
 
         $company = Company::findOrFail($validated['company_id']);
-        $startDate = isset($validated['start_date'])
-            ? Carbon::parse($validated['start_date'])
-            : now()->startOfYear();
-        $endDate = isset($validated['end_date'])
-            ? Carbon::parse($validated['end_date'])
-            : now();
+
+        if (! empty($validated['date_preset']) && empty($validated['start_date']) && empty($validated['end_date'])) {
+            [$startDate, $endDate] = $this->resolvePreset($validated['date_preset']);
+        } else {
+            $startDate = isset($validated['start_date'])
+                ? Carbon::parse($validated['start_date'])
+                : now()->startOfYear();
+            $endDate = isset($validated['end_date'])
+                ? Carbon::parse($validated['end_date'])
+                : now();
+        }
 
         $report = new CashFlowReport;
         $report->forCompany($company)->forPeriod($startDate, $endDate);
@@ -203,6 +259,7 @@ class ReportController extends Controller
             'company_id' => 'required|uuid|exists:companies,id',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
+            'date_preset' => 'nullable|string|in:this_month,last_month,this_quarter,last_quarter,ytd,last_year',
             'account_types' => 'nullable|array',
             'account_types.*' => 'string|in:Asset,Liability,Equity,Income,Expense',
             'account_ids' => 'nullable|array',
@@ -210,12 +267,17 @@ class ReportController extends Controller
         ]);
 
         $company = Company::findOrFail($validated['company_id']);
-        $startDate = isset($validated['start_date'])
-            ? Carbon::parse($validated['start_date'])
-            : now()->startOfYear();
-        $endDate = isset($validated['end_date'])
-            ? Carbon::parse($validated['end_date'])
-            : now();
+
+        if (! empty($validated['date_preset']) && empty($validated['start_date']) && empty($validated['end_date'])) {
+            [$startDate, $endDate] = $this->resolvePreset($validated['date_preset']);
+        } else {
+            $startDate = isset($validated['start_date'])
+                ? Carbon::parse($validated['start_date'])
+                : now()->startOfYear();
+            $endDate = isset($validated['end_date'])
+                ? Carbon::parse($validated['end_date'])
+                : now();
+        }
 
         $report = new GeneralLedgerReport;
         $report->forCompany($company)->forPeriod($startDate, $endDate);
