@@ -19,6 +19,7 @@ use App\Services\ReportExportService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ReportController extends Controller
@@ -115,9 +116,12 @@ class ReportController extends Controller
 
         $report = new TrialBalanceReport;
         $report->forCompany($company)->forPeriod(null, $asOfDate);
-        $data = $report->generate();
 
-        $result = $report->toArray();
+        $cacheKey = "report:trial-balance:{$company->id}:{$asOfDate->toDateString()}";
+        $result = Cache::remember($cacheKey, 300, function () use ($report) {
+            $report->generate();
+            return $report->toArray();
+        });
 
         if (! empty($validated['search'])) {
             $search = strtolower($validated['search']);
@@ -152,9 +156,12 @@ class ReportController extends Controller
 
         $report = new BalanceSheetReport;
         $report->forCompany($company)->forPeriod(null, $asOfDate);
-        $data = $report->generate();
 
-        $result = $report->toArray();
+        $cacheKey = "report:balance-sheet:{$company->id}:{$asOfDate->toDateString()}";
+        $result = Cache::remember($cacheKey, 300, function () use ($report) {
+            $report->generate();
+            return $report->toArray();
+        });
 
         if (! empty($validated['search'])) {
             $search = strtolower($validated['search']);

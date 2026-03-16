@@ -203,7 +203,7 @@ class PerformanceTest extends TestCase
         $duration = Benchmark::measure(function () {
             Transaction::where('company_id', $this->company->id)
                 ->with(['splits.account'])
-                ->orderBy('date', 'desc')
+                ->orderBy('transaction_date', 'desc')
                 ->paginate(15);
         });
 
@@ -259,5 +259,58 @@ class PerformanceTest extends TestCase
         }
 
         return false;
+    }
+
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function report_endpoints_respond_within_acceptable_time(): void
+    {
+        $assetType = AccountType::where('name', 'ASSET')->first();
+        $incomeType = AccountType::where('name', 'INCOME')->first();
+
+        $account = Account::create([
+            'company_id' => $this->company->id,
+            'account_type_id' => $assetType->id,
+            'currency_id' => $this->currency->id,
+            'code' => '1100',
+            'name' => 'Cash',
+        ]);
+
+        $incomeAccount = Account::create([
+            'company_id' => $this->company->id,
+            'account_type_id' => $incomeType->id,
+            'currency_id' => $this->currency->id,
+            'code' => '4100',
+            'name' => 'Revenue',
+        ]);
+
+        for ($i = 0; $i < 20; $i++) {
+            $txn = Transaction::create([
+                'company_id' => $this->company->id,
+                'transaction_date' => now()->subDays($i),
+                'description' => "Perf Transaction $i",
+                'is_posted' => true,
+                'posted_at' => now()->subDays($i),
+                'post_date' => now()->subDays($i),
+            ]);
+            $txn->splits()->createMany([
+                ['account_id' => $account->id, 'action' => 'DEBIT', 'amount_num' => 10000, 'amount_denom' => 100, 'value_num' => 10000, 'value_denom' => 100, 'reconciled_state' => 'n'],
+                ['account_id' => $incomeAccount->id, 'action' => 'CREDIT', 'amount_num' => 10000, 'amount_denom' => 100, 'value_num' => 10000, 'value_denom' => 100, 'reconciled_state' => 'n'],
+            ]);
+        }
+
+        $user = \App\Models\User::factory()->create();
+        $this->actingAs($user);
+
+        $params = http_build_query(['company_id' => $this->company->id]);
+
+        $start = microtime(true);
+        $this->getJson("/api/reports/trial-balance?$params")->assertStatus(200);
+        $trialMs = (microtime(true) - $start) * 1000;
+        $this->assertLessThan(500, $trialMs, 'Trial balance took too long');
+
+        $start = microtime(true);
+        $this->getJson("/api/reports/balance-sheet?$params")->assertStatus(200);
+        $bsMs = (microtime(true) - $start) * 1000;
+        $this->assertLessThan(500, $bsMs, 'Balance sheet took too long');
     }
 }

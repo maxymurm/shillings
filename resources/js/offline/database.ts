@@ -85,6 +85,11 @@ class ShillingsDatabase extends Dexie {
       syncQueue: '++id, entity_type, status, created_at',
       deviceInfo: 'key',
     });
+
+    this.version(2).stores({
+      transactions: 'id, company_id, post_date, enter_date, is_posted, [company_id+post_date]',
+      splits: 'id, transaction_id, account_id, [account_id+transaction_id]',
+    });
   }
 }
 

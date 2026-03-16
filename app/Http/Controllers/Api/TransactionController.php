@@ -24,7 +24,7 @@ class TransactionController extends Controller
     public function index(Request $request): JsonResponse
     {
         $query = Transaction::query()
-            ->with(['splits.account', 'currency', 'createdBy']);
+            ->with(['splits.account.accountType', 'currency', 'createdBy', 'company']);
 
         // Filter by account
         if ($request->has('account_id')) {
