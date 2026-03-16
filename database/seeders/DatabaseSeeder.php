@@ -22,13 +22,41 @@ class DatabaseSeeder extends Seeder
             RoleAndPermissionSeeder::class,
         ]);
 
-        // Create test user for development
-        $user = User::factory()->create([
+        // Create demo users for each role
+        $superAdmin = User::factory()->create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@shillings.test',
+        ]);
+        $superAdmin->assignRole('super-admin');
+
+        $owner = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+        $owner->assignRole('owner');
 
-        // Assign owner role to test user
-        $user->assignRole('owner');
+        $admin = User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'admin@shillings.test',
+        ]);
+        $admin->assignRole('admin');
+
+        $accountant = User::factory()->create([
+            'name' => 'Accountant User',
+            'email' => 'accountant@shillings.test',
+        ]);
+        $accountant->assignRole('accountant');
+
+        $bookkeeper = User::factory()->create([
+            'name' => 'Bookkeeper User',
+            'email' => 'bookkeeper@shillings.test',
+        ]);
+        $bookkeeper->assignRole('bookkeeper');
+
+        $viewer = User::factory()->create([
+            'name' => 'Viewer User',
+            'email' => 'viewer@shillings.test',
+        ]);
+        $viewer->assignRole('viewer');
     }
 }

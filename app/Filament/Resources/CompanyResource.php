@@ -8,11 +8,12 @@ use App\Models\Currency;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Select;
-use Filament\Schemas\Components\TextInput;
-use Filament\Schemas\Components\Toggle;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -28,11 +29,17 @@ class CompanyResource extends Resource
 
     protected static ?int $navigationSort = 100;
 
+    protected static ?string $navigationLabel = 'Organisations';
+
+    protected static ?string $modelLabel = 'organisation';
+
+    protected static ?string $pluralModelLabel = 'organisations';
+
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
-                Section::make('Company Details')
+                Section::make('Organisation Details')
                     ->schema([
                         TextInput::make('name')
                             ->required()
@@ -79,7 +86,7 @@ class CompanyResource extends Resource
                         Toggle::make('is_active')
                             ->label('Active')
                             ->default(true)
-                            ->helperText('Inactive companies are hidden from the company switcher'),
+                            ->helperText('Inactive organisations are hidden from the organisation switcher'),
                     ]),
             ]);
     }
@@ -129,7 +136,7 @@ class CompanyResource extends Resource
                     ->native(false),
             ])
             ->actions([
-                Tables\Actions\Action::make('switch')
+                Actions\Action::make('switch')
                     ->label('Switch')
                     ->icon(Heroicon::OutlinedArrowRightStartOnRectangle)
                     ->color('success')
@@ -137,12 +144,12 @@ class CompanyResource extends Resource
                         session(['active_company_id' => $record->id]);
                         redirect()->route('filament.admin.pages.dashboard');
                     }),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

@@ -7,13 +7,14 @@ use App\Models\Budget;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Select;
-use Filament\Schemas\Components\TextInput;
-use Filament\Schemas\Components\DatePicker;
-use Filament\Schemas\Components\Toggle;
-use Filament\Schemas\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use UnitEnum;
@@ -182,9 +183,9 @@ class BudgetResource extends Resource
                     ->placeholder('All'),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('clone')
+                Actions\ViewAction::make(),
+                Actions\EditAction::make(),
+                Actions\Action::make('clone')
                     ->label('Clone to New Year')
                     ->icon('heroicon-o-document-duplicate')
                     ->color('gray')
@@ -203,8 +204,8 @@ class BudgetResource extends Resource
                     }),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('fiscal_year', 'desc');

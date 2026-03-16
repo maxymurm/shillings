@@ -8,13 +8,14 @@ use App\ValueObjects\Money;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Select;
-use Filament\Schemas\Components\Textarea;
-use Filament\Schemas\Components\TextInput;
-use Filament\Schemas\Components\DatePicker;
-use Filament\Schemas\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use UnitEnum;
@@ -258,18 +259,18 @@ class DocumentResource extends Resource
                     ->label('Overdue Only'),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make()
+                Actions\ViewAction::make(),
+                Actions\EditAction::make()
                     ->visible(fn ($record) => $record->isEditable()),
-                Tables\Actions\Action::make('send')
+                Actions\Action::make('send')
                     ->icon('heroicon-o-paper-airplane')
                     ->color('info')
                     ->visible(fn ($record) => $record->status === 'draft')
                     ->action(fn ($record) => $record->markAsSent()),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('issue_date', 'desc');

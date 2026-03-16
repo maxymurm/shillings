@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\AccountResource\Pages;
 
 use App\Filament\Resources\AccountResource;
+use App\Models\Company;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,8 +13,8 @@ class CreateAccount extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        // Set company_id from session
-        $data['company_id'] = session('active_company_id');
+        // Set company_id from session, with fallback to first company
+        $data['company_id'] = session('active_company_id') ?? Company::first()?->id;
 
         return $data;
     }

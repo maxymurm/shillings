@@ -7,12 +7,13 @@ use App\Models\Tax;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Select;
-use Filament\Schemas\Components\TextInput;
-use Filament\Schemas\Components\Toggle;
-use Filament\Schemas\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use UnitEnum;
@@ -25,7 +26,7 @@ class TaxResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Settings';
 
-    protected static ?int $navigationSort = 60;
+    protected static ?int $navigationSort = 70;
 
     public static function form(Schema $schema): Schema
     {
@@ -196,12 +197,12 @@ class TaxResource extends Resource
                     ->boolean(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Actions\ViewAction::make(),
+                Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('name');

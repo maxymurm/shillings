@@ -9,12 +9,13 @@ use App\Services\AccountService;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Select;
-use Filament\Schemas\Components\Textarea;
-use Filament\Schemas\Components\TextInput;
-use Filament\Schemas\Components\Toggle;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,6 +31,8 @@ class AccountResource extends Resource
     protected static string|UnitEnum|null $navigationGroup = 'Accounting';
 
     protected static ?int $navigationSort = 10;
+
+    protected static ?string $navigationLabel = 'Chart of Accounts';
 
     public static function form(Schema $schema): Schema
     {
@@ -196,7 +199,7 @@ class AccountResource extends Resource
                     ->native(false),
             ])
             ->actions([
-                Tables\Actions\Action::make('addChild')
+                Actions\Action::make('addChild')
                     ->label('Add Child')
                     ->icon(Heroicon::OutlinedPlus)
                     ->color('gray')
@@ -205,8 +208,8 @@ class AccountResource extends Resource
                         'parent_id' => $record->id,
                         'account_type_id' => $record->account_type_id,
                     ])),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make()
                     ->before(function (Account $record) {
                         if ($record->children()->exists()) {
                             throw new \Exception('Cannot delete account with children. Delete children first.');
@@ -217,18 +220,18 @@ class AccountResource extends Resource
                     }),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('hide')
+                Actions\BulkActionGroup::make([
+                    Actions\BulkAction::make('hide')
                         ->label('Hide Selected')
                         ->icon(Heroicon::OutlinedEyeSlash)
                         ->action(fn ($records) => $records->each->update(['is_hidden' => true]))
                         ->deselectRecordsAfterCompletion(),
-                    Tables\Actions\BulkAction::make('show')
+                    Actions\BulkAction::make('show')
                         ->label('Show Selected')
                         ->icon(Heroicon::OutlinedEye)
                         ->action(fn ($records) => $records->each->update(['is_hidden' => false]))
                         ->deselectRecordsAfterCompletion(),
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

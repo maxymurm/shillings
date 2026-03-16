@@ -7,10 +7,11 @@ use App\Models\User;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Select;
-use Filament\Schemas\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,6 +27,8 @@ class UserResource extends Resource
     protected static string|UnitEnum|null $navigationGroup = 'Settings';
 
     protected static ?int $navigationSort = 120;
+
+    protected static ?string $navigationLabel = 'Users';
 
     public static function form(Schema $schema): Schema
     {
@@ -123,7 +126,7 @@ class UserResource extends Resource
                     )),
             ])
             ->actions([
-                Tables\Actions\Action::make('changeRole')
+                Actions\Action::make('changeRole')
                     ->label('Change Role')
                     ->icon(Heroicon::OutlinedKey)
                     ->color('warning')
@@ -143,7 +146,7 @@ class UserResource extends Resource
                         $record->companies()
                             ->updateExistingPivot($companyId, ['role' => $data['role']]);
                     }),
-                Tables\Actions\Action::make('removeFromCompany')
+                Actions\Action::make('removeFromCompany')
                     ->label('Remove')
                     ->icon(Heroicon::OutlinedTrash)
                     ->color('danger')
@@ -155,8 +158,8 @@ class UserResource extends Resource
                     ->visible(fn (User $record) => $record->id !== auth()->id()),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('removeAll')
+                Actions\BulkActionGroup::make([
+                    Actions\BulkAction::make('removeAll')
                         ->label('Remove Selected')
                         ->icon(Heroicon::OutlinedTrash)
                         ->color('danger')
@@ -173,7 +176,7 @@ class UserResource extends Resource
                 ]),
             ])
             ->headerActions([
-                Tables\Actions\Action::make('invite')
+                Actions\Action::make('invite')
                     ->label('Invite User')
                     ->icon(Heroicon::OutlinedEnvelope)
                     ->form([

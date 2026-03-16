@@ -7,11 +7,12 @@ use App\Models\Currency;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Select;
-use Filament\Schemas\Components\TextInput;
-use Filament\Schemas\Components\Toggle;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use UnitEnum;
@@ -119,8 +120,8 @@ class CurrencyResource extends Resource
                     ->native(false),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('setDefault')
+                Actions\EditAction::make(),
+                Actions\Action::make('setDefault')
                     ->label('Set as Default')
                     ->icon(Heroicon::OutlinedStar)
                     ->color('warning')
@@ -134,13 +135,13 @@ class CurrencyResource extends Resource
                     }),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('activate')
+                Actions\BulkActionGroup::make([
+                    Actions\BulkAction::make('activate')
                         ->label('Activate')
                         ->icon(Heroicon::OutlinedCheckCircle)
                         ->action(fn ($records) => $records->each->update(['is_active' => true]))
                         ->deselectRecordsAfterCompletion(),
-                    Tables\Actions\BulkAction::make('deactivate')
+                    Actions\BulkAction::make('deactivate')
                         ->label('Deactivate')
                         ->icon(Heroicon::OutlinedXCircle)
                         ->action(fn ($records) => $records->each->update(['is_active' => false]))

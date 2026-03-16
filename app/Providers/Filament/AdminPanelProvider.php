@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\EnsureCompanyExists;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -42,6 +43,9 @@ class AdminPanelProvider extends PanelProvider
             ->spa()
             ->renderHook('panels::head.end', fn () => Blade::render('filament.partials.pwa-head'))
             ->renderHook('panels::body.end', fn () => Blade::render('filament.partials.pwa-offline-indicator'))
+            ->renderHook('panels::body.end', fn () => Blade::render('filament.partials.loading-indicator'))
+            ->renderHook('panels::page.start', fn () => Blade::render('filament.partials.company-banner'))
+            ->renderHook('panels::user-menu.before', fn () => Blade::render('filament.partials.org-switcher'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
@@ -65,6 +69,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                EnsureCompanyExists::class,
             ]);
     }
 }
