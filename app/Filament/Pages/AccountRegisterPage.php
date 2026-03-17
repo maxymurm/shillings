@@ -339,4 +339,36 @@ class AccountRegisterPage extends Page
         $this->entryMemo               = '';
         $this->suggestions             = [];
     }
+
+    /**
+     * Returns balance summary for the currently selected account (for the header card).
+     */
+    public function getCurrentAccountStats(): array
+    {
+        if (! $this->accountId) return ['balance' => '0.00', 'balance_neg' => false, 'tx_count' => 0, 'total_debit' => '0.00', 'total_credit' => '0.00'];
+
+        $row = DB::table('splits')
+            ->where('account_id', $this->accountId)
+            ->selectRaw("SUM(CASE WHEN action = 'DEBIT'  THEN amount_num ELSE 0 END) as dr_num")
+            ->selectRaw("SUM(CASE WHEN action = 'CREDIT' THEN amount_num ELSE 0 END) as cr_num")
+            ->selectRaw('MAX(amount_denom) as denom')
+            ->selectRaw('COUNT(*) as tx_count')
+            ->first();
+
+        $account       = Account::with('accountType')->find($this->accountId);
+        $isDebitNormal = strtoupper($account?->accountType?->normal_balance ?? 'DEBIT') === 'DEBIT';
+
+        $denom = $row?->denom ?: 100;
+        $dr    = ($row?->dr_num ?? 0) / $denom;
+        $cr    = ($row?->cr_num ?? 0) / $denom;
+        $bal   = $isDebitNormal ? ($dr - $cr) : ($cr - $dr);
+
+        return [
+            'balance'      => number_format(abs($bal), 2),
+            'balance_neg'  => $bal < 0,
+            'tx_count'     => (int) ($row?->tx_count ?? 0),
+            'total_debit'  => number_format($dr, 2),
+            'total_credit' => number_format($cr, 2),
+        ];
+    }
 }
