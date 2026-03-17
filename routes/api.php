@@ -51,6 +51,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{account}', [AccountController::class, 'show'])->middleware('ability:accounts:read');
         Route::get('/{account}/balance', [AccountController::class, 'balance'])->middleware('ability:accounts:read');
         Route::get('/{account}/running-balance', [AccountController::class, 'runningBalance'])->middleware('ability:accounts:read');
+        Route::get('/{account}/transactions', [AccountController::class, 'transactions'])->middleware('ability:reports:read');
+        Route::get('/{account}/transactions/export', [AccountController::class, 'exportTransactions'])->middleware('ability:reports:export');
         Route::post('/', [AccountController::class, 'store'])->middleware('ability:accounts:create');
         Route::put('/{account}', [AccountController::class, 'update'])->middleware('ability:accounts:update');
         Route::delete('/{account}', [AccountController::class, 'destroy'])->middleware('ability:accounts:delete');
@@ -70,6 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{transaction}/reverse', [TransactionController::class, 'reverse'])->middleware('ability:transactions:post');
         Route::post('/{transaction}/void', [TransactionController::class, 'void'])->middleware('ability:transactions:post');
         Route::post('/{transaction}/reconcile', [TransactionController::class, 'reconcile'])->middleware('ability:transactions:update');
+        Route::post('/{transaction}/duplicate', [TransactionController::class, 'duplicate'])->middleware('ability:transactions:create');
     });
 
     // Exchange Rates

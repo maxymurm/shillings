@@ -394,4 +394,33 @@ class TransactionController extends Controller
 
         return response()->json($results);
     }
+
+    /**
+     * Duplicate a transaction.
+     */
+    public function duplicate(Transaction $transaction): JsonResponse
+    {
+        $transaction->load('splits');
+
+        $newTransaction = $this->transactionService->create([
+            'description' => $transaction->description,
+            'reference' => $transaction->reference,
+            'notes' => $transaction->notes,
+            'post_date' => now()->format('Y-m-d'),
+            'currency_id' => $transaction->currency_id,
+            'splits' => $transaction->splits->map(fn ($split) => [
+                'account_id' => $split->account_id,
+                'amount_num' => $split->amount_num,
+                'amount_denom' => $split->amount_denom,
+                'memo' => $split->memo,
+            ])->toArray(),
+        ]);
+
+        $newTransaction->load(['splits.account', 'currency']);
+
+        return response()->json([
+            'message' => 'Transaction duplicated successfully',
+            'transaction' => $newTransaction,
+        ], 201);
+    }
 }
