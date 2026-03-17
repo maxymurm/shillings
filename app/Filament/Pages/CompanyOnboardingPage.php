@@ -32,6 +32,9 @@ class CompanyOnboardingPage extends Page implements HasForms
     public string $companyName = '';
     public ?string $currencyId = null;
     public string $template = '';
+    public int $fiscalYearEndMonth = 12;
+    public int $fiscalYearEndDay = 31;
+    public bool $isActive = true;
 
     public function mount(): void
     {
@@ -51,17 +54,21 @@ class CompanyOnboardingPage extends Page implements HasForms
     public function create(): void
     {
         $this->validate([
-            'companyName' => 'required|string|min:2|max:255',
-            'currencyId'  => 'required|exists:currencies,id',
+            'companyName'          => 'required|string|min:2|max:255',
+            'currencyId'           => 'required|exists:currencies,id',
+            'fiscalYearEndMonth'   => 'required|integer|between:1,12',
+            'fiscalYearEndDay'     => 'required|integer|between:1,31',
         ], [
             'companyName.required' => 'Give your organisation a name.',
             'currencyId.required'  => 'Select a default currency.',
         ]);
 
         $company = Company::create([
-            'name'                => $this->companyName,
-            'default_currency_id' => $this->currencyId,
-            'is_active'           => true,
+            'name'                  => $this->companyName,
+            'default_currency_id'   => $this->currencyId,
+            'fiscal_year_end_month' => $this->fiscalYearEndMonth,
+            'fiscal_year_end_day'   => $this->fiscalYearEndDay,
+            'is_active'             => $this->isActive,
         ]);
 
         // Attach the current user as owner

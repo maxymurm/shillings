@@ -100,6 +100,58 @@
                 <p style="margin:4px 0 0;font-size:11px;color:#64748b">Pre-populates your chart of accounts. You can also import from GnuCash later.</p>
             </div>
             @endif
+
+            {{-- Fiscal Year End --}}
+            <div>
+                <label style="display:block;font-size:13px;font-weight:500;color:#cbd5e1;margin-bottom:5px">
+                    Fiscal Year End
+                </label>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                    <div>
+                        <select
+                            wire:model="fiscalYearEndMonth"
+                            style="width:100%;box-sizing:border-box;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:#1e293b;color:#f1f5f9;padding:9px 14px;font-size:13px;outline:none"
+                        >
+                            @foreach(['January','February','March','April','May','June','July','August','September','October','November','December'] as $i => $monthName)
+                                <option value="{{ $i + 1 }}" @selected($fiscalYearEndMonth == $i + 1)>{{ $monthName }}</option>
+                            @endforeach
+                        </select>
+                        <p style="margin:3px 0 0;font-size:11px;color:#64748b">Month</p>
+                    </div>
+                    <div>
+                        <select
+                            wire:model="fiscalYearEndDay"
+                            style="width:100%;box-sizing:border-box;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:#1e293b;color:#f1f5f9;padding:9px 14px;font-size:13px;outline:none"
+                        >
+                            @for($d = 1; $d <= 31; $d++)
+                                <option value="{{ $d }}" @selected($fiscalYearEndDay == $d)>{{ $d }}</option>
+                            @endfor
+                        </select>
+                        <p style="margin:3px 0 0;font-size:11px;color:#64748b">Day</p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Active Toggle --}}
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03)">
+                <div>
+                    <div style="font-size:13px;font-weight:500;color:#cbd5e1">Active</div>
+                    <div style="font-size:11px;color:#64748b;margin-top:1px">Inactive organisations are hidden from the organisation switcher</div>
+                </div>
+                <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;margin-left:12px">
+                    <input type="checkbox" wire:model="isActive" style="opacity:0;width:0;height:0;position:absolute">
+                    <span
+                        x-data="{}"
+                        :style="$wire.isActive ? 'background:#10b981' : 'background:#475569'"
+                        style="position:absolute;cursor:pointer;inset:0;border-radius:22px;transition:background .2s"
+                    >
+                        <span
+                            :style="$wire.isActive ? 'transform:translateX(18px)' : 'transform:translateX(2px)'"
+                            style="position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:2px;left:0;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)"
+                        ></span>
+                    </span>
+                </label>
+            </div>
         </div>
 
         {{-- Actions --}}

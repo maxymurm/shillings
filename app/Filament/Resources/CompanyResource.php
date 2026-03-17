@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CompanyResource\Pages;
 use App\Models\Company;
 use App\Models\Currency;
+use App\Services\ChartOfAccountsService;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
@@ -88,6 +89,25 @@ class CompanyResource extends Resource
                             ->default(true)
                             ->helperText('Inactive organisations are hidden from the organisation switcher'),
                     ]),
+
+                Section::make('Starter Chart of Accounts')
+                    ->description('Optionally import a predefined set of accounts to get started quickly.')
+                    ->schema([
+                        Select::make('chart_of_accounts_template')
+                            ->label('Template')
+                            ->options(function () {
+                                $options = ['none' => "No template — I'll set up accounts myself"];
+                                try {
+                                    foreach (app(ChartOfAccountsService::class)->getAvailableTemplates() as $t) {
+                                        $options[$t['key']] = $t['name'] . ' — ' . $t['description'];
+                                    }
+                                } catch (\Throwable) {}
+                                return $options;
+                            })
+                            ->default('none')
+                            ->helperText('Pre-populates your chart of accounts. You can manage accounts manually at any time.'),
+                    ])
+                    ->hiddenOn('edit'),
             ]);
     }
 

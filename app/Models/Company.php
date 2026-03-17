@@ -24,6 +24,9 @@ class Company extends Model
     protected $fillable = [
         'name',
         'fiscal_year_start',
+        'fiscal_year_end_month',
+        'fiscal_year_end_day',
+        'is_active',
         'default_currency_id',
         'settings',
     ];
@@ -35,6 +38,9 @@ class Company extends Model
      */
     protected $casts = [
         'fiscal_year_start' => 'date',
+        'fiscal_year_end_month' => 'integer',
+        'fiscal_year_end_day' => 'integer',
+        'is_active' => 'boolean',
         'settings' => 'array',
     ];
 
