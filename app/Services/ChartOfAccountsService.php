@@ -197,12 +197,12 @@ class ChartOfAccountsService
     private function mapAccountType(string $type): string
     {
         return match (strtoupper($type)) {
-            'ASSET' => 'Asset',
-            'LIABILITY' => 'Liability',
-            'EQUITY' => 'Equity',
-            'INCOME', 'REVENUE' => 'Income',
-            'EXPENSE' => 'Expense',
-            default => 'Asset',
+            'ASSET' => 'ASSET',
+            'LIABILITY' => 'LIABILITY',
+            'EQUITY' => 'EQUITY',
+            'INCOME', 'REVENUE' => 'INCOME',
+            'EXPENSE' => 'EXPENSE',
+            default => 'ASSET',
         };
     }
 
