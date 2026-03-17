@@ -668,23 +668,23 @@ Add to `src/router/index.ts`:
 
 | Phase | Description | Backend Status | Mobile Status | Commit(s) |
 |-------|-------------|---------------|---------------|-----------|
-| A1 | Tax Summary Column Bug Fix | ⬜ pending | N/A | — |
-| A2 | Wire Conflict Resolution UI | N/A | ⬜ pending | — |
-| A3 | Implement Biometric Login | N/A | ⬜ pending | — |
-| A4 | Account Register Search/Date | ✅ Exists | ⬜ pending | — |
-| A5 | Wire Receipt Capture | ⬜ pending | ⬜ pending | — |
-| B1 | Bulk Endpoint (API) | ⬜ pending | — | — |
-| B2 | Filament Bulk Actions | ⬜ pending | — | — |
-| B3 | Mobile Bulk Select | — | ⬜ pending | — |
-| C1 | Report Text Search (Backend) | ⬜ pending | — | — |
-| C2 | Report Filters (Mobile) | — | ⬜ pending | — |
-| D1 | Fill Empty Backend Tests | ⬜ pending | — | — |
-| D2 | Mobile Vitest Coverage | — | ⬜ pending | — |
-| D3 | E2E Cypress Scaffolding | — | ⬜ pending | — |
-| E1 | Backend Query Optimization | ⬜ pending | — | — |
-| E2 | Mobile Bundle Performance | — | ⬜ pending | — |
-| F1 | Tax Summary Filament Page | ⬜ pending | — | — |
-| F2 | Tax Summary Mobile View | — | ⬜ pending | — |
+| A1 | Tax Summary Column Bug Fix | ✅ Done | N/A | backend: Phase A commit |
+| A2 | Wire Conflict Resolution UI | ✅ Done (tests) | ✅ Done | mobile: Phase A commit |
+| A3 | Implement Biometric Login | N/A | ✅ Done | mobile: Phase A commit |
+| A4 | Account Register Search/Date | ✅ Exists | ✅ Done | mobile: Phase A commit |
+| A5 | Wire Receipt Capture | ✅ Done | ✅ Done | paired: Phase A commit |
+| B1 | Bulk Endpoint (API) | ✅ Done | — | backend: Phase B commit |
+| B2 | Filament Bulk Actions | ✅ Done | — | backend: Phase B commit |
+| B3 | Mobile Bulk Select | — | ✅ Done | mobile: Phase B commit |
+| C1 | Report Text Search (Backend) | ✅ Done | — | backend: Phase C commit |
+| C2 | Report Filters (Mobile) | — | ✅ Done | mobile: Phase C commit |
+| D1 | Fill Empty Backend Tests | ✅ Done | — | backend: Phase D commit |
+| D2 | Mobile Vitest Coverage | — | ✅ Done | mobile: Phase D commit |
+| D3 | E2E Cypress Scaffolding | — | ✅ Done | mobile: Phase D commit |
+| E1 | Backend Query Optimization | ✅ Done | — | backend: Phase E commit |
+| E2 | Mobile Bundle Performance | — | ✅ Done | mobile: Phase E commit |
+| F1 | Tax Summary Filament Page | ✅ Done | — | backend: c55d6d4 |
+| F2 | Tax Summary Mobile View | — | ✅ Done | mobile: e7b8cc9 |
 
 ---
 
