@@ -21,7 +21,7 @@ class CreateCompany extends CreateRecord
     protected function afterCreate(): void
     {
         // Attach the creating user as owner
-        $this->record->users()->attach(auth()->id(), ['role' => 'owner']);
+        $this->record->users()->attach(auth()->id(), ['id' => (string) \Illuminate\Support\Str::uuid(), 'role' => 'owner']);
 
         // Set as active company
         session(['active_company_id' => $this->record->id]);

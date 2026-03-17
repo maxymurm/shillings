@@ -12,6 +12,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Str;
 
 class CompanyOnboardingPage extends Page implements HasForms
 {
@@ -64,7 +65,7 @@ class CompanyOnboardingPage extends Page implements HasForms
         ]);
 
         // Attach the current user as owner
-        $company->users()->attach(auth()->id(), ['role' => 'owner']);
+        $company->users()->attach(auth()->id(), ['id' => (string) Str::uuid(), 'role' => 'owner']);
 
         // Set as active company
         session(['active_company_id' => $company->id]);
