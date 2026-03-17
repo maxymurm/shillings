@@ -121,7 +121,7 @@ class AccountResource extends Resource
                     ->sortable()
                     ->fontFamily('mono'),
 
-                Tables\Columns\TextColumn::make('full_name')
+                Tables\Columns\TextColumn::make('name')
                     ->label('Account Name')
                     ->searchable()
                     ->sortable()
