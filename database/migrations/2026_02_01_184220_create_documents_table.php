@@ -37,7 +37,7 @@ return new class extends Migration
             $table->timestamp('viewed_at')->nullable();
             $table->timestamp('paid_at')->nullable();
             $table->foreignUuid('bill_term_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignUuid('parent_id')->nullable()->constrained('documents')->nullOnDelete();
+            $table->uuid('parent_id')->nullable();   // FK added separately below
             $table->foreignUuid('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();
@@ -47,6 +47,14 @@ return new class extends Migration
             $table->index(['company_id', 'contact_id']);
             $table->index(['company_id', 'due_at']);
             $table->foreign('currency_code')->references('code')->on('currencies');
+        });
+
+        // Add self-referential FK separately (PostgreSQL requires PK to be committed first)
+        Schema::table('documents', function (Blueprint $table) {
+            $table->foreign('parent_id')
+                ->references('id')
+                ->on('documents')
+                ->nullOnDelete();
         });
     }
 

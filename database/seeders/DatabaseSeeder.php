@@ -58,5 +58,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'viewer@shillings.test',
         ]);
         $viewer->assignRole('viewer');
+
+        // Demo client user
+        $demo = User::factory()->create([
+            'name' => 'Samone',
+            'email' => 'samone@shillings.app',
+            'password' => bcrypt('Shillings@2026!'),
+        ]);
+        $demo->assignRole('owner');
     }
 }
