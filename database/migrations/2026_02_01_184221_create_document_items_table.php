@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('discount_type', ['percentage', 'fixed'])->nullable();
             $table->bigInteger('discount_num')->default(0);
             $table->bigInteger('discount_denom')->default(100);
-            $table->foreignUuid('tax_id')->nullable()->constrained('taxes')->nullOnDelete();
+            $table->uuid('tax_id')->nullable(); // FK added in 184240_add_deferred_fk_constraints
             $table->bigInteger('subtotal_num')->default(0);
             $table->bigInteger('subtotal_denom')->default(100);
             $table->bigInteger('tax_total_num')->default(0);

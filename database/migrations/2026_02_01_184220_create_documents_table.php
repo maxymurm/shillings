@@ -36,7 +36,7 @@ return new class extends Migration
             $table->timestamp('sent_at')->nullable();
             $table->timestamp('viewed_at')->nullable();
             $table->timestamp('paid_at')->nullable();
-            $table->foreignUuid('bill_term_id')->nullable()->constrained()->nullOnDelete();
+            $table->uuid('bill_term_id')->nullable(); // FK added in 184240_add_deferred_fk_constraints
             $table->uuid('parent_id')->nullable();   // FK added separately below
             $table->foreignUuid('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();

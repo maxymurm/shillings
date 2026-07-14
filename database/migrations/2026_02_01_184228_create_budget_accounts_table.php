@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('budget_accounts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('budget_id')->constrained()->cascadeOnDelete();
+            $table->uuid('budget_id'); // FK added in 184240_add_deferred_fk_constraints
             $table->foreignUuid('account_id')->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('period_num');
             $table->bigInteger('amount_num')->default(0);
