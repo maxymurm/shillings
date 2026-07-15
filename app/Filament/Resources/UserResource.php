@@ -15,6 +15,7 @@ use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use UnitEnum;
 
@@ -203,7 +204,10 @@ class UserResource extends Resource
                                 throw new \Exception('User is already a member of this company.');
                             }
 
-                            $user->companies()->attach($companyId, ['role' => $data['role']]);
+                            $user->companies()->attach($companyId, [
+                                'id' => (string) Str::uuid(),
+                                'role' => $data['role'],
+                            ]);
                         } else {
                             throw new \Exception('User not found. Invitation emails not yet implemented.');
                         }

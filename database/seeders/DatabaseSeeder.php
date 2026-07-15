@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -47,7 +48,7 @@ class DatabaseSeeder extends Seeder
                 'name' => $name,
                 'email_verified_at' => now(),
                 'password' => bcrypt($password ?? 'password'),
-                'remember_token' => \Illuminate\Support\Str::random(10),
+                'remember_token' => Str::random(10),
             ]
         );
 
@@ -57,7 +58,10 @@ class DatabaseSeeder extends Seeder
 
         if ($user->companies()->count() === 0) {
             $company = Company::factory()->create();
-            $user->companies()->attach($company->id, ['role' => 'member']);
+            $user->companies()->attach($company->id, [
+                'id' => (string) Str::uuid(),
+                'role' => 'member',
+            ]);
         }
     }
 }
