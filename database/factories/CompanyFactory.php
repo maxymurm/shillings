@@ -20,9 +20,12 @@ class CompanyFactory extends Factory
      */
     public function definition(): array
     {
+        static $counter = 0;
+        $counter++;
+
         return [
-            'name' => $this->faker->company(),
-            'fiscal_year_start' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'name' => 'Test Company ' . $counter,
+            'fiscal_year_start' => now()->subYear()->startOfYear(),
             'default_currency_id' => function () {
                 return Currency::where('code', 'KES')->first()?->id
                     ?? Currency::factory()->kes()->create()->id;
