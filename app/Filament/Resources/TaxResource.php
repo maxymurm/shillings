@@ -74,7 +74,7 @@ class TaxResource extends Resource
                             ->preload()
                             ->helperText('Account where collected tax is posted'),
 
-                        Toggle::make('is_enabled')
+                        Toggle::make('enabled')
                             ->label('Enabled')
                             ->default(true),
                     ])
@@ -164,7 +164,7 @@ class TaxResource extends Resource
                     ->label('Liability Account')
                     ->toggleable(),
 
-                Tables\Columns\IconColumn::make('is_enabled')
+                Tables\Columns\IconColumn::make('enabled')
                     ->label('Enabled')
                     ->boolean(),
 
@@ -185,7 +185,7 @@ class TaxResource extends Resource
                         'compound' => 'Compound',
                     ]),
 
-                Tables\Filters\TernaryFilter::make('is_enabled')
+                Tables\Filters\TernaryFilter::make('enabled')
                     ->label('Enabled')
                     ->boolean()
                     ->trueLabel('Enabled only')
@@ -227,6 +227,6 @@ class TaxResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::where('is_enabled', true)->count();
+        return static::getModel()::where('enabled', true)->count();
     }
 }
