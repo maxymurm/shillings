@@ -27,30 +27,6 @@ use Illuminate\Support\Facades\Route;
 // Health check
 Route::get('/health', fn () => response()->json(['status' => 'ok', 'app' => 'Shillings']));
 
-// Diagnostic endpoint (temporary — remove after debugging)
-Route::get('/diag', function () {
-    try {
-        $userCount = \App\Models\User::count();
-        $companyCount = \App\Models\Company::count();
-        $roleCount = \Spatie\Permission\Models\Role::count();
-        $currencyCount = \App\Models\Currency::count();
-        $demoUser = \App\Models\User::where('email', 'samone@shillings.app')->first();
-        $demoCompanies = $demoUser ? $demoUser->companies()->count() : 'N/A';
-        return response()->json([
-            'users' => $userCount,
-            'companies' => $companyCount,
-            'roles' => $roleCount,
-            'currencies' => $currencyCount,
-            'demo_user_exists' => (bool) $demoUser,
-            'demo_user_companies' => $demoCompanies,
-            'php_version' => PHP_VERSION,
-            'env' => app()->environment(),
-        ]);
-    } catch (\Throwable $e) {
-        return response()->json(['error' => $e->getMessage(), 'class' => get_class($e)], 500);
-    }
-});
-
 // Authentication routes (public)
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
