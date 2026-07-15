@@ -124,7 +124,7 @@ class AccountBalanceService
 
         $balance->split_count++;
         $balance->last_transaction_id = $transaction->id;
-        $balance->last_transaction_date = $transaction->post_date ?? $transaction->date;
+        $balance->last_transaction_date = $transaction->post_date ?? $transaction->transaction_date;
         $balance->calculated_at = now();
         $balance->is_stale = false;
 
@@ -171,7 +171,7 @@ class AccountBalanceService
             }
 
             $transaction = $split->transaction;
-            $transactionDate = $transaction->post_date ?? $transaction->date;
+            $transactionDate = $transaction->post_date ?? $transaction->transaction_date;
 
             if (! $lastTransactionDate || $transactionDate > $lastTransactionDate) {
                 $lastTransaction = $transaction;

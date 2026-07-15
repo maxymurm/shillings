@@ -23,11 +23,12 @@ class RecentTransactions extends BaseWidget
             ->query(
                 Transaction::query()
                     ->whereHas('splits.account', fn (Builder $q) => $q->where('company_id', session('active_company_id')))
-                    ->latest('date')
+                    ->latest('transaction_date')
                     ->limit(10)
             )
             ->columns([
-                Tables\Columns\TextColumn::make('date')
+                Tables\Columns\TextColumn::make('transaction_date')
+                    ->label('Date')
                     ->date()
                     ->sortable(),
 
