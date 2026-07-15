@@ -6,7 +6,7 @@ use Filament\Widgets\Widget;
 
 class AdventDigitalWidget extends Widget
 {
-    protected static string $view = 'filament.widgets.advent-digital-widget';
+    protected string $view = 'filament.widgets.advent-digital-widget';
 
     protected static ?int $sort = -2;
 
